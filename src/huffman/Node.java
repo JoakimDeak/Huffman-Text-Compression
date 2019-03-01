@@ -30,10 +30,14 @@ public class Node {
 	public String toString() {
 		String output = "";
 		
-		output += "Left: " + this.left + "\n";
-		output += "Right: " + this.right + "\n";
-		output += "char: " + this.character + "\n";
-		output += "Freq: " + this.frequency + "\n" + "\n";
+		output += (this.left != null) ? this.right : "No left child";
+		output += "\n";
+		output += (this.right != null) ? this.right : "No right child";
+		output += "\n";
+		output += (this.character != '\u0000') ? this.character : "Internal Node";
+		output += "\n";
+		output += this.frequency;
+		output += "\n";
 		
 		return output;
 	}
