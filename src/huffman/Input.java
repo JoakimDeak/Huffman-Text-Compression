@@ -11,7 +11,7 @@ public class Input {
 
 		int[][] array = new int[100][2];
 		// gets the input from txt file
-		Scanner sc = new Scanner(new File("inputText.txt"));
+		Scanner sc = new Scanner(new File("inputTextRaven.txt"));
 
 		String input = "";
 		while (sc.hasNextLine()) {

@@ -30,7 +30,7 @@ public class Node {
 	public String toString() {
 		String output = "";
 		
-		output += (this.left != null) ? this.right : "No left child";
+		output += (this.left != null) ? this.left : "No left child";
 		output += "\n";
 		output += (this.right != null) ? this.right : "No right child";
 		output += "\n";
