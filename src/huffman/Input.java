@@ -2,6 +2,7 @@ package huffman;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Input {
@@ -99,6 +100,41 @@ public class Input {
 		return array;
 	}
 
+	public static ArrayList<Node> makeExternalNodes(int[][] array) {
+
+		ArrayList<Node> list = new ArrayList<Node>();
+
+		for (int i = 0; i < array.length; i++) {
+			list.add(new Node((char) array[i][0], array[i][1]));
+		}
+		return list;
+	}
+
+	public static Node makeTree(ArrayList<Node> list) {
+
+		while (list.size() > 1) {
+			Node one = list.get(0);
+			Node two = list.get(1);
+			Node temp = new Node(one, two);
+			list.remove(one);
+			list.remove(two);
+
+			boolean inserted = false;
+			for (int i = 0; i < list.size(); i++) {
+				if (inserted == false && list.get(i).getFrequency() > temp.getFrequency()) {
+					list.add(i, temp);
+					inserted = true;
+				}
+			}
+			if (inserted == false) {
+				list.add(list.size(), temp);
+				inserted = true;
+			}
+		}
+
+		return list.get(0);
+	}
+
 	public static void main(String[] args) {
 
 		int[][] array = null;
@@ -107,13 +143,13 @@ public class Input {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		array = sort(array);
 
-		for (int i = 0; i < array.length; i++) {
-			System.out.print((char) array[i][0]);
-			System.out.println(" " + array[i][1]);
-		}
+		ArrayList<Node> list = new ArrayList<Node>();
 
+		list = makeExternalNodes(array);
+		
+		System.out.println(makeTree(list));
 	}
 }
