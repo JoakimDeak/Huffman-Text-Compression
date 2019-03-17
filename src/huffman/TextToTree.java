@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Input {
+public class TextToTree {
 	// makes the list of all characters and their frequency
 	private static int[][] makeList(String textInput) throws FileNotFoundException {
 
