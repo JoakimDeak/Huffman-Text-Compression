@@ -19,6 +19,14 @@ public class Node {
 		this.frequency = frequency;
 	}
 	
+	public Node right() {
+		return this.right;
+	}
+	
+	public Node left() {
+		return this.left;
+	}
+	
 	public int getFrequency() {
 		return this.frequency;
 	}
@@ -27,18 +35,29 @@ public class Node {
 		return this.character;
 	}
 	
+	public void print() {
+		print("", true);
+	}
+
+	private void print(String prefix, boolean isTail) {
+		System.out.println(prefix + (isTail ? "└── " : "├── ") + this.toString());
+		if (this.right != null) {
+			this.right.print(prefix + (isTail ? "    " : "│   "), false);
+		}
+		if (this.left != null) {
+			this.left.print(prefix + (isTail ? "    " : "│   "), true);
+		}
+	}
+	
 	public String toString() {
 		String output = "";
-		
-		output += (this.left != null) ? this.left : "No left child";
-		output += "\n";
-		output += (this.right != null) ? this.right : "No right child";
-		output += "\n";
-		output += (this.character != '\u0000') ? this.character : "Internal Node";
-		output += "\n";
-		output += this.frequency;
-		output += "\n";
-		
+		output += "[";
+		if(this.character != '\u0000') {
+			output += this.character;
+			output += "|";
+		}
+		output += "f:" + this.frequency;
+		output += "]";
 		return output;
 	}
 }

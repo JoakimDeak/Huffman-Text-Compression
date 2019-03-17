@@ -7,11 +7,11 @@ import java.util.Scanner;
 
 public class Input {
 	// makes the list of all characters and their frequency
-	public static int[][] makeList() throws FileNotFoundException {
+	private static int[][] makeList(String textInput) throws FileNotFoundException {
 
 		int[][] array = new int[100][2];
 		// gets the input from txt file
-		Scanner sc = new Scanner(new File("inputTextRaven.txt"));
+		Scanner sc = new Scanner(new File(textInput));
 
 		String input = "";
 		while (sc.hasNextLine()) {
@@ -38,7 +38,7 @@ public class Input {
 		return array;
 	}
 
-	public static int indexOf(int[][] array, char character) {
+	private static int indexOf(int[][] array, char character) {
 
 		for (int i = 0; i < array.length; i++) {
 			if (array[i][0] == (int) character) {
@@ -49,7 +49,7 @@ public class Input {
 		return -1; // character did not have an entry
 	}
 
-	public static int nextEmpty(int[][] array) {
+	private static int nextEmpty(int[][] array) {
 		// finding the next empty entry
 		for (int i = 0; i < array.length; i++) {
 			if (array[i][0] == 0) {
@@ -60,7 +60,7 @@ public class Input {
 		return -1; // no empty entry was found, array size is too small
 	}
 
-	public static int[][] shorten(int[][] array) {
+	private static int[][] shorten(int[][] array) {
 		// seeing how many non empty entries there are
 		int i = array.length - 1;
 		while (i > 0 && array[i][0] == 0) {
@@ -77,7 +77,7 @@ public class Input {
 		return shortArray;
 	}
 
-	public static int[][] sort(int[][] array) {
+	private static int[][] sort(int[][] array) {
 		// sorts the list accoring to frequency
 		// using insertion is not a problem due to small array size
 		for (int i = 0; i < array.length; i++) {
@@ -100,7 +100,7 @@ public class Input {
 		return array;
 	}
 
-	public static ArrayList<Node> makeExternalNodes(int[][] array) {
+	private static ArrayList<Node> makeExternalNodes(int[][] array) {
 
 		ArrayList<Node> list = new ArrayList<Node>();
 
@@ -110,7 +110,12 @@ public class Input {
 		return list;
 	}
 
-	public static Node makeTree(ArrayList<Node> list) {
+	public static Tree makeTree(String inputText) throws FileNotFoundException {
+
+		int[][] array = makeList(inputText);
+		array = sort(array);
+		ArrayList<Node> list = new ArrayList<Node>();
+		list = makeExternalNodes(array);
 
 		while (list.size() > 1) {
 			Node one = list.get(0);
@@ -131,25 +136,17 @@ public class Input {
 				inserted = true;
 			}
 		}
-
-		return list.get(0);
+		return new Tree(list.get(0));
 	}
 
 	public static void main(String[] args) {
-
-		int[][] array = null;
+		Tree tree = null;
 		try {
-			array = makeList();
+			tree = makeTree("inputText.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		array = sort(array);
-
-		ArrayList<Node> list = new ArrayList<Node>();
-
-		list = makeExternalNodes(array);
-		
-		System.out.println(makeTree(list));
+		tree.print();
+		System.out.println(tree.size());
 	}
 }
