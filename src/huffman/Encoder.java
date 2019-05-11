@@ -15,9 +15,9 @@ public class Encoder {
 	public Encoder(String fileName) throws FileNotFoundException {
 		File file = new File(fileName);
 		if(file.exists()) {
-			this.inputFile = file;
+			this.inputFile = file;// makes sure a file with the given name exists
 		} else {
-			throw new FileNotFoundException();
+			throw new FileNotFoundException(); 
 		}
 		
 	}
@@ -26,7 +26,7 @@ public class Encoder {
 		Tree tree = null;
 		TreeMaker tm = new TreeMaker();
 		try {
-			tree = tm.makeTree(this.inputFile.getName());
+			tree = tm.makeTree(this.inputFile);
 			encode(tree.getCharCodes());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -43,8 +43,8 @@ public class Encoder {
 			for (int i = 0; i < cLine.length(); i++) {
 				char cChar = cLine.charAt(i);
 				for(String code : charCodes) {
-					if(code.charAt(0) == cChar) {
-						writer.write(code.substring(1));
+					if(code.charAt(0) == cChar) { // find the code for current character
+						writer.write(code.substring(1)); // excluding first character which is the character to be encoded
 					}
 				}
 			}

@@ -7,11 +7,11 @@ import java.util.Scanner;
 
 public class TreeMaker {
 	// makes the list of all characters and their frequency
-	private int[][] makeList(String textInput) throws FileNotFoundException {
+	private int[][] makeList(File inputFile) throws FileNotFoundException {
 
 		int[][] array = new int[100][2];
 		// gets the input from txt file
-		Scanner sc = new Scanner(new File(textInput));
+		Scanner sc = new Scanner(inputFile);
 
 		String input = "";
 		while (sc.hasNextLine()) {
@@ -110,9 +110,9 @@ public class TreeMaker {
 		return list;
 	}
 
-	public Tree makeTree(String inputText) throws FileNotFoundException {
+	public Tree makeTree(File inputFile) throws FileNotFoundException {
 
-		int[][] array = makeList(inputText);
+		int[][] array = makeList(inputFile);
 		array = sort(array);
 		ArrayList<Node> list = new ArrayList<Node>();
 		list = makeExternalNodes(array);
