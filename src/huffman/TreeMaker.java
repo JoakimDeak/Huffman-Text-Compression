@@ -138,17 +138,4 @@ public class TreeMaker {
 		}
 		return new Tree(list.get(0));
 	}
-
-	public static void main(String[] args) {
-		Tree tree = null;
-		TreeMaker tm = new TreeMaker();
-		try {
-			tree = tm.makeTree("inputText.txt");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		//tree.print();
-		System.out.println(tree.getCharCodes());
-		//System.out.println(tree.size());
-	}
 }
