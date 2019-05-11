@@ -36,7 +36,8 @@ public class Encoder {
 	private void encode(ArrayList<String> charCodes) throws IOException {
 
 		Scanner sc = new Scanner(this.inputFile);
-		BufferedWriter writer = new BufferedWriter(new FileWriter(new File("Encoded-" + this.inputFile.getName())));
+		String outputFileName = "Encoded-" + this.inputFile.getName().substring(0, this.inputFile.getName().lastIndexOf('.')) + ".bin";
+		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(outputFileName)));
 
 		while (sc.hasNextLine()) { // goes through every line
 			String cLine = sc.nextLine();
