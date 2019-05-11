@@ -2,8 +2,9 @@ package huffman;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class Node {
+public class Node implements Serializable {
 
 	private char character;
 	private Node left;

@@ -14,8 +14,8 @@ public class Encoder {
 
 	public Encoder(String fileName) throws FileNotFoundException {
 		File file = new File(fileName);
-		if(file.exists()) {
-			this.inputFile = file;// makes sure a file with the given name exists
+		if(file.exists()) { // makes sure a file with the given name exists
+			this.inputFile = file;
 		} else {
 			throw new FileNotFoundException(); 
 		}
@@ -38,9 +38,9 @@ public class Encoder {
 		Scanner sc = new Scanner(this.inputFile);
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File("Encoded-" + this.inputFile.getName())));
 
-		while (sc.hasNextLine()) {
+		while (sc.hasNextLine()) { // goes through every line
 			String cLine = sc.nextLine();
-			for (int i = 0; i < cLine.length(); i++) {
+			for (int i = 0; i < cLine.length(); i++) { // goes through every character
 				char cChar = cLine.charAt(i);
 				for(String code : charCodes) {
 					if(code.charAt(0) == cChar) { // find the code for current character
@@ -55,12 +55,6 @@ public class Encoder {
 	}
 	
 	public static void main(String[] args) {
-		Encoder e = null;
-		try {
-			e = new Encoder("inputText.txt");
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		e.encode();
+		
 	}
 }

@@ -136,6 +136,8 @@ public class TreeMaker {
 				inserted = true;
 			}
 		}
-		return new Tree(list.get(0));
+		Tree tree = new Tree(list.get(0)); // the only node left in list is root node
+		tree.export(); // exports the tree to .data file
+		return tree;
 	}
 }
