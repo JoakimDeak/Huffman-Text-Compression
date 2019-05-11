@@ -147,6 +147,7 @@ public class TextToTree {
 			e.printStackTrace();
 		}
 		tree.print();
+		tree.getCharCodes();
 		System.out.println(tree.size());
 	}
 }

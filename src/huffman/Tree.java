@@ -1,5 +1,9 @@
 package huffman;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Tree {
@@ -13,12 +17,18 @@ public class Tree {
 		this.root.print();
 	}
 	
-	public void getCharCodes() {
-		this.root.getCharCodes();
+	public void getCharCodes() { // generates text file with character codes used for encoding
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File("charCodes.txt")));
+			this.root.getCharCodes(writer);
+			writer.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public int size() {
-
+	public int size() { // finds number of nodes by adding all nodes to list
+		
 		ArrayList<Node> list = new ArrayList<Node>();
 
 		list.add(this.root);

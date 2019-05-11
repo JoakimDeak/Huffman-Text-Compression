@@ -1,5 +1,8 @@
 package huffman;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 public class Node {
 
 	private char character;
@@ -7,14 +10,14 @@ public class Node {
 	private Node right;
 	private int frequency;
 
-	public Node(Node left, Node right) {
+	public Node(Node left, Node right) { // constructor for internal nodes
 		this.left = left;
 		this.right = right;
 		this.frequency = left.getFrequency() + right.getFrequency();
 
 	}
 
-	public Node(char character, int frequency) {
+	public Node(char character, int frequency) { // constructor for external nodes / leaf nodes
 		this.character = character;
 		this.frequency = frequency;
 	}
@@ -69,20 +72,21 @@ public class Node {
 		return output;
 	}
 	
-	public void getCharCodes() {
-		getCharCodes(this, "");
+	public void getCharCodes(BufferedWriter writer) throws IOException {
+		getCharCodes(this, "", writer);
 	}
 
-	private String getCharCodes(Node node, String output) {
+	private String getCharCodes(Node node, String output, BufferedWriter writer) throws IOException {
 
 		if (node.isLeaf()) {
-			System.out.println(node.character + " : " + output);
+			writer.write(node.character + output);
+			writer.newLine();
 		} else {
 			if (node.left() != null) {
-				getCharCodes(node.left, output + "0");
+				getCharCodes(node.left, output + "0", writer);
 			}
 			if (node.right() != null) {
-				getCharCodes(node.right, output + "1");
+				getCharCodes(node.right, output + "1", writer);
 			}
 		}
 
