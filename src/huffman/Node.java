@@ -38,6 +38,14 @@ public class Node {
 	public void print() {
 		print("", true);
 	}
+	
+	public boolean isLeaf() {
+		if(this.character != '\u0000') { // if the node has a character it is a leaf node
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	private void print(String prefix, boolean isTail) {
 		System.out.println(prefix + (isTail ? "└── " : "├── ") + this.toString());
@@ -52,7 +60,7 @@ public class Node {
 	public String toString() {
 		String output = "";
 		output += "[";
-		if(this.character != '\u0000') {
+		if(this.isLeaf()) {
 			output += this.character;
 			output += "|";
 		}
