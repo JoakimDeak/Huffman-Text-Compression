@@ -12,6 +12,10 @@ public class Tree {
 	public void print() {
 		this.root.print();
 	}
+	
+	public void getCharCodes() {
+		this.root.getCharCodes();
+	}
 
 	public int size() {
 
