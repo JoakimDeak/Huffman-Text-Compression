@@ -11,7 +11,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Tree implements Serializable{
+public class Tree implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4087141033489848748L;
 	private Node root;
 
 	public Tree(Node root) {
@@ -20,6 +24,10 @@ public class Tree implements Serializable{
 
 	public void print() {
 		this.root.print();
+	}
+	
+	public Node getRoot() {
+		return this.root;
 	}
 
 	public ArrayList<String> getCharCodes() { // generates text file with character codes used for encoding
@@ -78,7 +86,7 @@ public class Tree implements Serializable{
 
 		return list.size();
 	}
-	
+
 	public void export() {
 		ObjectOutputStream oos = null;
 		try {

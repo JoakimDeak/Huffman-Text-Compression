@@ -6,6 +6,10 @@ import java.io.Serializable;
 
 public class Node implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6302191902117718521L;
 	private char character;
 	private Node left;
 	private Node right;
@@ -72,7 +76,7 @@ public class Node implements Serializable {
 		output += "]";
 		return output;
 	}
-	
+
 	public void getCharCodes(BufferedWriter writer) throws IOException {
 		getCharCodes(this, "", writer);
 	}

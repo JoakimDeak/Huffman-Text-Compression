@@ -14,12 +14,12 @@ public class Encoder {
 
 	public Encoder(String fileName) throws FileNotFoundException {
 		File file = new File(fileName);
-		if(file.exists()) { // makes sure a file with the given name exists
+		if (file.exists()) { // makes sure a file with the given name exists
 			this.inputFile = file;
 		} else {
-			throw new FileNotFoundException(); 
+			throw new FileNotFoundException();
 		}
-		
+
 	}
 
 	public void encode() {
@@ -42,9 +42,10 @@ public class Encoder {
 			String cLine = sc.nextLine();
 			for (int i = 0; i < cLine.length(); i++) { // goes through every character
 				char cChar = cLine.charAt(i);
-				for(String code : charCodes) {
-					if(code.charAt(0) == cChar) { // find the code for current character
-						writer.write(code.substring(1)); // excluding first character which is the character to be encoded
+				for (String code : charCodes) {
+					if (code.charAt(0) == cChar) { // find the code for current character
+						writer.write(code.substring(1)); // excluding first character which is the character to be
+															// encoded
 					}
 				}
 			}
@@ -52,9 +53,5 @@ public class Encoder {
 
 		sc.close();
 		writer.close();
-	}
-	
-	public static void main(String[] args) {
-		
 	}
 }
