@@ -146,8 +146,8 @@ public class TextToTree {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		tree.print();
-		tree.getCharCodes();
-		System.out.println(tree.size());
+		//tree.print();
+		System.out.println(tree.getCharCodes());
+		//System.out.println(tree.size());
 	}
 }
