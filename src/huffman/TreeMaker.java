@@ -5,9 +5,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class TextToTree {
+public class TreeMaker {
 	// makes the list of all characters and their frequency
-	private static int[][] makeList(String textInput) throws FileNotFoundException {
+	private int[][] makeList(String textInput) throws FileNotFoundException {
 
 		int[][] array = new int[100][2];
 		// gets the input from txt file
@@ -38,7 +38,7 @@ public class TextToTree {
 		return array;
 	}
 
-	private static int indexOf(int[][] array, char character) {
+	private int indexOf(int[][] array, char character) {
 
 		for (int i = 0; i < array.length; i++) {
 			if (array[i][0] == (int) character) {
@@ -49,7 +49,7 @@ public class TextToTree {
 		return -1; // character did not have an entry
 	}
 
-	private static int nextEmpty(int[][] array) {
+	private int nextEmpty(int[][] array) {
 		// finding the next empty entry
 		for (int i = 0; i < array.length; i++) {
 			if (array[i][0] == 0) {
@@ -60,7 +60,7 @@ public class TextToTree {
 		return -1; // no empty entry was found, array size is too small
 	}
 
-	private static int[][] shorten(int[][] array) {
+	private int[][] shorten(int[][] array) {
 		// seeing how many non empty entries there are
 		int i = array.length - 1;
 		while (i > 0 && array[i][0] == 0) {
@@ -77,7 +77,7 @@ public class TextToTree {
 		return shortArray;
 	}
 
-	private static int[][] sort(int[][] array) {
+	private int[][] sort(int[][] array) {
 		// sorts the list accoring to frequency
 		// using insertion is not a problem due to small array size
 		for (int i = 0; i < array.length; i++) {
@@ -100,7 +100,7 @@ public class TextToTree {
 		return array;
 	}
 
-	private static ArrayList<Node> makeExternalNodes(int[][] array) {
+	private ArrayList<Node> makeExternalNodes(int[][] array) {
 
 		ArrayList<Node> list = new ArrayList<Node>();
 
@@ -110,7 +110,7 @@ public class TextToTree {
 		return list;
 	}
 
-	public static Tree makeTree(String inputText) throws FileNotFoundException {
+	public Tree makeTree(String inputText) throws FileNotFoundException {
 
 		int[][] array = makeList(inputText);
 		array = sort(array);
@@ -141,8 +141,9 @@ public class TextToTree {
 
 	public static void main(String[] args) {
 		Tree tree = null;
+		TreeMaker tm = new TreeMaker();
 		try {
-			tree = makeTree("inputText.txt");
+			tree = tm.makeTree("inputText.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
