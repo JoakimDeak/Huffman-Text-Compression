@@ -69,6 +69,7 @@ public class Encoder {
 	private StringBuilder write(int charsToWrite, StringBuilder input, FileOutputStream fos) throws IOException {
 
 		BitSet set = new BitSet();
+		
 		for (int i = 0; i < charsToWrite; i++) { // takes string of 0s and 1s and converts to bitset
 			if (input.charAt(i) == '1') {
 				set.set(i);
@@ -78,10 +79,5 @@ public class Encoder {
 		input.delete(0, charsToWrite); // deletes characters once they have been written
 
 		return input;
-	}
-
-	public static void main(String[] args) throws FileNotFoundException {
-		Encoder e = new Encoder("inputText.txt");
-		e.encode();
 	}
 }
