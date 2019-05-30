@@ -73,10 +73,7 @@ public class Decoder {
 		Node cNode = this.tree.getRoot(); // start at root of tree
 
 		for (int i = 0; i < littleE.length(); i++) {
-			int ai = i / 8; // altered index to read little endian as big endian
-			ai *= 8;
-			ai += 7;
-			ai -= i % 8;
+			int ai = bigE(i);
 
 			if (cNode.isLeaf()) { // if leaf has been reached
 				writer.write(cNode.getCharacter()); // write the character
@@ -91,10 +88,19 @@ public class Decoder {
 				cNode = cNode.right();
 			}
 		}
-
+	}
+	
+	private int bigE(int littleE) { // order for reading little endian as big endian
+		int bigE = littleE / 8;
+		bigE *= 8;
+		bigE += 7;
+		bigE -= littleE % 8;
+		
+		return bigE;
 	}
 
 	private void createTree(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		this.tree = (Tree) ois.readObject(); // creates tree from .data file
 	}
+
 }

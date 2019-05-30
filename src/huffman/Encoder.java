@@ -33,7 +33,7 @@ public class Encoder {
 		}
 	}
 
-	// writes the encoded text as binary to actually compress original text
+	// writes the encoded text as binary to compress original text
 	private void encode(ArrayList<String> charCodes) throws IOException {
 		Scanner sc = new Scanner(this.inputFile);
 		FileOutputStream fos = new FileOutputStream(new File("output.bin"));
