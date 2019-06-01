@@ -30,7 +30,12 @@ public class Tree implements Serializable {
 		return this.root;
 	}
 
-	public ArrayList<String> getCharCodes() { // generates text file with character codes used for encoding
+	/**
+	 * generates text file with character codes used for encoding
+	 * 
+	 * @return
+	 */
+	public ArrayList<String> getCharCodes() {
 		BufferedWriter writer = null;
 		File file = null;
 		try {
@@ -40,7 +45,7 @@ public class Tree implements Serializable {
 			writer.close();
 			return getCharCodes(file);
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return null;
 		} finally { // makes sure the writer gets closed
 			try {
@@ -66,7 +71,12 @@ public class Tree implements Serializable {
 		return codes;
 	}
 
-	public int size() { // finds number of nodes by adding all nodes to list
+	/**
+	 * returns list of all leaf nodes
+	 * 
+	 * @return
+	 */
+	public ArrayList<Node> getLeaves() {
 
 		ArrayList<Node> list = new ArrayList<Node>();
 
@@ -84,7 +94,15 @@ public class Tree implements Serializable {
 			pointer++;
 		}
 
-		return list.size();
+		ArrayList<Node> leaves = new ArrayList<Node>();
+
+		for (Node n : list) {
+			if (n.isLeaf()) {
+				leaves.add(n);
+			}
+		}
+
+		return leaves;
 	}
 
 	public void export() {

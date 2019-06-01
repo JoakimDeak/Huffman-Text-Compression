@@ -12,6 +12,11 @@ public class Decoder {
 
 	private Tree tree;
 
+	/**
+	 * @param treeFileName
+	 * @param inputFileName
+	 * @throws FileNotFoundException
+	 */
 	public void decode(String treeFileName, String inputFileName) throws FileNotFoundException {
 		File treeFile = new File(treeFileName);
 		File inputFile = new File(inputFileName);
@@ -23,6 +28,10 @@ public class Decoder {
 		}
 	}
 
+	/**
+	 * @param treeFileName
+	 * @param inputFileName
+	 */
 	private void initStreams(String treeFileName, String inputFileName) { // creates streams
 		ObjectInputStream ois = null;
 		BufferedWriter writer = null;
@@ -50,6 +59,11 @@ public class Decoder {
 		}
 	}
 
+	/**
+	 * @param fis
+	 * @param writer
+	 * @throws IOException
+	 */
 	private void decode(FileInputStream fis, BufferedWriter writer) throws IOException {
 
 		StringBuilder littleE = new StringBuilder();
@@ -60,8 +74,9 @@ public class Decoder {
 
 			if (av > 256) { // create byte array with size 256
 				bytes = new byte[256];
-			} else { // if there are less than 256 bytes left to read create byte array with smaller size
-				bytes = new byte[av];
+			} else { // if there are less than 256 bytes left to read create byte array with smaller
+						// size
+				bytes = new byte[av]; // last byte of file is not character data
 			}
 
 			fis.read(bytes); // read bytes into byte array
@@ -79,7 +94,7 @@ public class Decoder {
 				writer.write(cNode.getCharacter()); // write the character
 				cNode = this.tree.getRoot(); // start over from the root
 			}
-
+			
 			char cChar = littleE.charAt(ai); // read character
 
 			if (cChar == '0') { // if character is 0 go left
@@ -89,18 +104,37 @@ public class Decoder {
 			}
 		}
 	}
-	
-	private int bigE(int littleE) { // order for reading little endian as big endian
+
+	/**
+	 * order for reading little endian as big endian
+	 * 
+	 * @param littleE
+	 * @return
+	 */
+	private int bigE(int littleE) {
 		int bigE = littleE / 8;
 		bigE *= 8;
-		bigE += 7;
+		bigE += 8 - 1;
 		bigE -= littleE % 8;
-		
+
 		return bigE;
 	}
 
+	/**
+	 * creates tree from .data file
+	 * 
+	 * @param ois
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
 	private void createTree(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-		this.tree = (Tree) ois.readObject(); // creates tree from .data file
+		this.tree = (Tree) ois.readObject();
 	}
-
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		Encoder e = new Encoder("inputText.txt");
+		e.encode();
+		Decoder d = new Decoder();
+		d.decode("tree.data", "output.bin");
+	}
 }

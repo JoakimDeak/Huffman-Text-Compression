@@ -4,25 +4,24 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class Node implements Serializable {
+public class Node implements Serializable, Comparable<Node> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6302191902117718521L;
 	private char character;
 	private Node left;
 	private Node right;
 	private int frequency;
 
-	public Node(Node left, Node right) { // constructor for internal nodes
+	/** constructor for internal nodes */
+	public Node(Node left, Node right) {
 		this.left = left;
 		this.right = right;
 		this.frequency = left.getFrequency() + right.getFrequency();
 
 	}
 
-	public Node(char character, int frequency) { // constructor for external nodes / leaf nodes
+	/** constructor for external nodes / leaf nodes */
+	public Node(char character, int frequency) {
 		this.character = character;
 		this.frequency = frequency;
 	}
@@ -97,5 +96,20 @@ public class Node implements Serializable {
 
 		return output;
 
+	}
+
+	public int compareTo(Node node) {
+
+		int node1 = this.frequency;
+		int node2 = node.getFrequency();
+
+		if (node1 > node2) {
+			return 1;
+		}
+		if (node1 < node2) {
+			return -1;
+		}
+
+		return 0;
 	}
 }
