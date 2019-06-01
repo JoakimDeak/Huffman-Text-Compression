@@ -25,6 +25,10 @@ public class Node implements Serializable, Comparable<Node> {
 		this.character = character;
 		this.frequency = frequency;
 	}
+	
+	public Node(char character) {
+		this.character = character;
+	}
 
 	public Node right() {
 		return this.right;
@@ -32,6 +36,14 @@ public class Node implements Serializable, Comparable<Node> {
 
 	public Node left() {
 		return this.left;
+	}
+	
+	public void setRight(Node right) {
+		this.right = right;
+	}
+	
+	public void setLeft(Node left) {
+		this.left = left;
 	}
 
 	public int getFrequency() {

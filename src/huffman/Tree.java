@@ -120,4 +120,73 @@ public class Tree implements Serializable {
 			}
 		}
 	}
+
+	private class Index {
+		public int index;
+	}
+
+	private Node buildUtil(char in[], char post[], int inStrt, int inEnd, Index pIndex) {
+		// Base case
+		if (inStrt > inEnd)
+			return null;
+
+		/*
+		 * Pick current node from Postrder traversal using postIndex and decrement
+		 * postIndex
+		 */
+		Node node = new Node(post[pIndex.index]);
+		(pIndex.index)--;
+
+		/* If this node has no children then return */
+		if (inStrt == inEnd)
+			return node;
+
+		/*
+		 * Else find the index of this node in Inorder traversal
+		 */
+		int iIndex = search(in, inStrt, inEnd, node.getCharacter());
+
+		/*
+		 * Using index in Inorder traversal, construct left and right subtress
+		 */
+		node.setRight(buildUtil(in, post, iIndex + 1, inEnd, pIndex));
+		node.setLeft(buildUtil(in, post, inStrt, iIndex - 1, pIndex));
+
+		return node;
+	}
+
+	// This function mainly initializes index of root
+	// and calls buildUtil()
+	public Node buildTree(char in[], char post[], int n) {
+		Index pIndex = new Index();
+		pIndex.index = n - 1;
+		return buildUtil(in, post, 0, n - 1, pIndex);
+	}
+
+	/*
+	 * Function to find index of value in arr[start...end] The function assumes that
+	 * value is postsent in in[]
+	 */
+	private int search(char arr[], int strt, int end, char character) {
+		int i;
+		for (i = strt; i <= end; i++) {
+			if (arr[i] == character)
+				break;
+		}
+		return i;
+	}
+	
+	public void setRoot(Node root) {
+		this.root = root;
+	}
+	
+	public static void main(String[] args) {
+//		char[] in = {'a', '\u0000', 'b', '\u0000', 'c', '\u0000', '\u0000', 'd'};
+//		char[] post = {'a', 'b', 'c', '\u0000', '\u0000', 'd', '\u0000', '\u0000'};
+		char[] in = {'4', '8', '2', '5', '1', '6', '3', '7'};
+		char[] post = {'8', '4', '5', '2', '6', '7', '3', '1'};
+		Tree t = new Tree(null);
+		t.setRoot(t.buildTree(in, post, in.length));
+		t.print();
+	}
 }

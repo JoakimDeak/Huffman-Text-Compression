@@ -130,11 +130,4 @@ public class Decoder {
 	private void createTree(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		this.tree = (Tree) ois.readObject();
 	}
-	
-	public static void main(String[] args) throws FileNotFoundException {
-		Encoder e = new Encoder("inputText.txt");
-		e.encode();
-		Decoder d = new Decoder();
-		d.decode("tree.data", "output.bin");
-	}
 }
