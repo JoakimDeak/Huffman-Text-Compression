@@ -76,7 +76,7 @@ public class Tree implements Serializable {
 	 * 
 	 * @return
 	 */
-	public ArrayList<Node> getLeaves() {
+	public int size() { // finds number of nodes by adding all nodes to list
 
 		ArrayList<Node> list = new ArrayList<Node>();
 
@@ -94,15 +94,7 @@ public class Tree implements Serializable {
 			pointer++;
 		}
 
-		ArrayList<Node> leaves = new ArrayList<Node>();
-
-		for (Node n : list) {
-			if (n.isLeaf()) {
-				leaves.add(n);
-			}
-		}
-
-		return leaves;
+		return list.size();
 	}
 
 	public void export() {
@@ -175,18 +167,16 @@ public class Tree implements Serializable {
 		}
 		return i;
 	}
-	
+
 	public void setRoot(Node root) {
 		this.root = root;
 	}
-	
-	public static void main(String[] args) {
-//		char[] in = {'a', '\u0000', 'b', '\u0000', 'c', '\u0000', '\u0000', 'd'};
-//		char[] post = {'a', 'b', 'c', '\u0000', '\u0000', 'd', '\u0000', '\u0000'};
-		char[] in = {'4', '8', '2', '5', '1', '6', '3', '7'};
-		char[] post = {'8', '4', '5', '2', '6', '7', '3', '1'};
-		Tree t = new Tree(null);
-		t.setRoot(t.buildTree(in, post, in.length));
-		t.print();
+
+	public ArrayList<Character> inorder() {
+		return this.root.inorder();
+	}
+
+	public ArrayList<Character> postorder() {
+		return this.root.postorder();
 	}
 }

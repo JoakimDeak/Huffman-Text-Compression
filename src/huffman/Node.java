@@ -3,6 +3,7 @@ package huffman;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Node implements Serializable, Comparable<Node> {
 
@@ -25,7 +26,7 @@ public class Node implements Serializable, Comparable<Node> {
 		this.character = character;
 		this.frequency = frequency;
 	}
-	
+
 	public Node(char character) {
 		this.character = character;
 	}
@@ -37,11 +38,11 @@ public class Node implements Serializable, Comparable<Node> {
 	public Node left() {
 		return this.left;
 	}
-	
+
 	public void setRight(Node right) {
 		this.right = right;
 	}
-	
+
 	public void setLeft(Node left) {
 		this.left = left;
 	}
@@ -123,5 +124,57 @@ public class Node implements Serializable, Comparable<Node> {
 		}
 
 		return 0;
+	}
+
+	public ArrayList<Character> postorder() {
+		ArrayList<Character> characters = new ArrayList<Character>();
+		characters = postorderRec();
+
+		return characters;
+	}
+
+	private ArrayList<Character> postorderRec() {
+
+		ArrayList<Character> left = new ArrayList<Character>();
+		ArrayList<Character> right = new ArrayList<Character>();
+
+		if (this.left != null) {
+			left = this.left.postorderRec();
+		}
+		if (this.right != null) {
+			right = this.right.postorderRec();
+		}
+
+		ArrayList<Character> combined = new ArrayList<Character>(left);
+		combined.addAll(right);
+		combined.add(this.character);
+
+		return combined;
+	}
+
+	public ArrayList<Character> inorder() {
+		ArrayList<Character> characters = new ArrayList<Character>();
+		characters = inorderRec();
+
+		return characters;
+	}
+
+	private ArrayList<Character> inorderRec() {
+
+		ArrayList<Character> left = new ArrayList<Character>();
+		ArrayList<Character> right = new ArrayList<Character>();
+
+		if (this.left != null) {
+			left = this.left.inorderRec();
+		}
+		if (this.right != null) {
+			right = this.right.inorderRec();
+		}
+
+		ArrayList<Character> combined = new ArrayList<Character>(left);
+		combined.add(this.character);
+		combined.addAll(right);
+
+		return combined;
 	}
 }
