@@ -126,11 +126,17 @@ public class Node implements Serializable, Comparable<Node> {
 		return 0;
 	}
 
-	public ArrayList<Character> postorder() {
+	public char[] postorder() {
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters = postorderRec();
+		
+		char[] chars = new char[characters.size()];
+		
+		for(int i = 0; i < characters.size(); i++) {
+			chars[i] = characters.get(i);
+		}
 
-		return characters;
+		return chars;
 	}
 
 	private ArrayList<Character> postorderRec() {
@@ -152,11 +158,17 @@ public class Node implements Serializable, Comparable<Node> {
 		return combined;
 	}
 
-	public ArrayList<Character> inorder() {
+	public char[] inorder() {
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters = inorderRec();
+		
+		char[] chars = new char[characters.size()];
+		
+		for(int i = 0; i < characters.size(); i++) {
+			chars[i] = characters.get(i);
+		}
 
-		return characters;
+		return chars;
 	}
 
 	private ArrayList<Character> inorderRec() {

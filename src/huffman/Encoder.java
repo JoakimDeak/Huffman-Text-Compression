@@ -48,13 +48,22 @@ public class Encoder {
 
 	private void writeHeader(Tree tree, FileOutputStream fos) throws IOException {
 		// getting all characters of the tree in inorder and postorder
-		ArrayList<Character> characters = tree.inorder();
-		characters.addAll(tree.postorder());
+		char[] in = tree.inorder();
+		char[] post = tree.postorder();
+		
+		char[] characters = new char[in.length + post.length];
+		
+		for(int i = 0; i < characters.length; i++) {
+			if(i < in.length) {
+				characters[i] = in[i];
+			} else {
+				characters[i] = post[i - post.length];
+			}
+		}
 
 		// writing the number of bytes that is tree data
-		int numOfChars = characters.size();
+		int numOfChars = characters.length;
 		int bytesNeeded = numOfChars / 255 + 1; // numbers larger than 255 need mulitple bytes
-
 		fos.write(bytesNeeded); // writing how many bytes are used to write the number of bytes of tree data
 
 		for (int i = 0; i < bytesNeeded; i++) {
@@ -68,7 +77,7 @@ public class Encoder {
 
 		// writing tree data
 		String treeData = "";
-		for (Character c : characters) {
+		for (char c : characters) {
 			treeData += c;
 		}
 		byte[] bytes = treeData.getBytes();

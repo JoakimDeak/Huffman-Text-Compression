@@ -188,7 +188,7 @@ public class TreeMaker {
 		return makeTreeFromList(list);
 	}
 	
-	public Tree buildTree(char in[], char post[]) {
+	public Tree buildTree(char[] in, char[] post) {
 		
 		Tree tree = new Tree(null);
 		tree.setRoot(tree.buildTree(in, post, in.length));

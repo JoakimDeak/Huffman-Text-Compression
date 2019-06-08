@@ -119,8 +119,9 @@ public class Tree implements Serializable {
 
 	private Node buildUtil(char in[], char post[], int inStrt, int inEnd, Index pIndex) {
 		// Base case
-		if (inStrt > inEnd)
+		if (inStrt > inEnd) {
 			return null;
+		}
 
 		/*
 		 * Pick current node from Postrder traversal using postIndex and decrement
@@ -130,9 +131,10 @@ public class Tree implements Serializable {
 		(pIndex.index)--;
 
 		/* If this node has no children then return */
-		if (inStrt == inEnd)
+		if (inStrt == inEnd) {
 			return node;
-
+		}
+			
 		/*
 		 * Else find the index of this node in Inorder traversal
 		 */
@@ -172,11 +174,11 @@ public class Tree implements Serializable {
 		this.root = root;
 	}
 
-	public ArrayList<Character> inorder() {
+	public char[] inorder() {
 		return this.root.inorder();
 	}
 
-	public ArrayList<Character> postorder() {
+	public char[] postorder() {
 		return this.root.postorder();
 	}
 }
