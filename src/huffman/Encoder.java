@@ -33,7 +33,6 @@ public class Encoder {
 		try {
 			fos = new FileOutputStream(new File("output.bin"));
 			tree = tm.makeTree(this.inputFile);
-			writeHeader(tree, fos);
 			encode(tree.getCharCodes(), fos);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -44,44 +43,6 @@ public class Encoder {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	private void writeHeader(Tree tree, FileOutputStream fos) throws IOException {
-		// getting all characters of the tree in inorder and postorder
-		char[] in = tree.inorder();
-		char[] post = tree.postorder();
-		
-		char[] characters = new char[in.length + post.length];
-		
-		for(int i = 0; i < characters.length; i++) {
-			if(i < in.length) {
-				characters[i] = in[i];
-			} else {
-				characters[i] = post[i - post.length];
-			}
-		}
-
-		// writing the number of bytes that is tree data
-		int numOfChars = characters.length;
-		int bytesNeeded = numOfChars / 255 + 1; // numbers larger than 255 need mulitple bytes
-		fos.write(bytesNeeded); // writing how many bytes are used to write the number of bytes of tree data
-
-		for (int i = 0; i < bytesNeeded; i++) {
-			if (numOfChars > 255) {
-				fos.write(255);
-				numOfChars -= 255;
-			} else {
-				fos.write(numOfChars);
-			}
-		}
-
-		// writing tree data
-		String treeData = "";
-		for (char c : characters) {
-			treeData += c;
-		}
-		byte[] bytes = treeData.getBytes();
-		fos.write(bytes);
 	}
 
 	/**

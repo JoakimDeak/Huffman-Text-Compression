@@ -3,7 +3,6 @@ package huffman;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Node implements Serializable, Comparable<Node> {
 
@@ -108,7 +107,6 @@ public class Node implements Serializable, Comparable<Node> {
 		}
 
 		return output;
-
 	}
 
 	public int compareTo(Node node) {
@@ -124,69 +122,5 @@ public class Node implements Serializable, Comparable<Node> {
 		}
 
 		return 0;
-	}
-
-	public char[] postorder() {
-		ArrayList<Character> characters = new ArrayList<Character>();
-		characters = postorderRec();
-		
-		char[] chars = new char[characters.size()];
-		
-		for(int i = 0; i < characters.size(); i++) {
-			chars[i] = characters.get(i);
-		}
-
-		return chars;
-	}
-
-	private ArrayList<Character> postorderRec() {
-
-		ArrayList<Character> left = new ArrayList<Character>();
-		ArrayList<Character> right = new ArrayList<Character>();
-
-		if (this.left != null) {
-			left = this.left.postorderRec();
-		}
-		if (this.right != null) {
-			right = this.right.postorderRec();
-		}
-
-		ArrayList<Character> combined = new ArrayList<Character>(left);
-		combined.addAll(right);
-		combined.add(this.character);
-
-		return combined;
-	}
-
-	public char[] inorder() {
-		ArrayList<Character> characters = new ArrayList<Character>();
-		characters = inorderRec();
-		
-		char[] chars = new char[characters.size()];
-		
-		for(int i = 0; i < characters.size(); i++) {
-			chars[i] = characters.get(i);
-		}
-
-		return chars;
-	}
-
-	private ArrayList<Character> inorderRec() {
-
-		ArrayList<Character> left = new ArrayList<Character>();
-		ArrayList<Character> right = new ArrayList<Character>();
-
-		if (this.left != null) {
-			left = this.left.inorderRec();
-		}
-		if (this.right != null) {
-			right = this.right.inorderRec();
-		}
-
-		ArrayList<Character> combined = new ArrayList<Character>(left);
-		combined.add(this.character);
-		combined.addAll(right);
-
-		return combined;
 	}
 }

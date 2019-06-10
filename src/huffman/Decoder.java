@@ -33,19 +33,18 @@ public class Decoder {
 	 * @param inputFileName
 	 */
 	private void initStreams(String treeFileName, String inputFileName) { // creates stream pointers
-		ObjectInputStream ois = null;
 		BufferedWriter writer = null;
 		FileInputStream fis = null;
+		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(treeFileName));
 			createTree(ois); // method call to create tree from .data file
 
 			fis = new FileInputStream(inputFileName);
-			readHeader(fis);
-			
+
 			String outputFileName = "Decoded-" + inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
 			writer = new BufferedWriter(new FileWriter(outputFileName));
-			
+
 			decode(fis, writer); // method call to decode text
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -62,34 +61,6 @@ public class Decoder {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	private void readHeader(FileInputStream fis) throws IOException {
-		int bytesToRead = fis.read();
-		byte[] numOfCharBytes = new byte[bytesToRead];
-		fis.read(numOfCharBytes);
-		int charBytes = 0;
-		for(int i = 0; i < numOfCharBytes.length; i++) {
-			int num = numOfCharBytes[i];
-			if(num == -1) { // unsigned 255 is being read as signed and therefore being -1
-				charBytes += 255;
-			} else {
-				charBytes += num;
-			}
-		}
-		
-		byte[] treeData = new byte[charBytes];
-		fis.read(treeData);
-		
-		char[] inorder = new char[charBytes / 2];
-		char[] postorder = new char[charBytes / 2];
-		
-		createTreeFromHeader(inorder, postorder);
-	}
-	
-	private void createTreeFromHeader(char[] inorder, char[] postorder) {
-		Tree tree = new Tree(null);
-		tree.setRoot(tree.buildTree(inorder, postorder, inorder.length));
 	}
 
 	/**
@@ -127,7 +98,7 @@ public class Decoder {
 				writer.write(cNode.getCharacter()); // write the character
 				cNode = this.tree.getRoot(); // start over from the root
 			}
-			
+
 			char cChar = littleE.charAt(ai); // read character
 
 			if (cChar == '0') { // if character is 0 go left
@@ -161,11 +132,6 @@ public class Decoder {
 	 * @throws IOException
 	 */
 	private void createTree(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-		this.tree = (Tree) ois.readObject();
-	}
-	
-	public static void main(String[] args) throws FileNotFoundException {
-		Decoder d = new Decoder();
-		d.decode("tree.data", "output.bin");
+		this.tree = (Tree) ois.readObject(); // creates tree from .data file
 	}
 }

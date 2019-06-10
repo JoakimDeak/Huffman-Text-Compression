@@ -172,27 +172,19 @@ public class TreeMaker {
 		tree.export(); // exports the tree to .data file
 		return tree;
 	}
-	
+
 	/**
 	 * @param inputFile
 	 * @return
 	 * @throws FileNotFoundException
 	 */
 	public Tree makeTree(File inputFile) throws FileNotFoundException {
-		
+
 		int[][] array = makeList(inputFile);
 		array = sort(array);
 		ArrayList<Node> list = new ArrayList<Node>();
 		list = makeExternalNodes(array);
-		
+
 		return makeTreeFromList(list);
-	}
-	
-	public Tree buildTree(char[] in, char[] post) {
-		
-		Tree tree = new Tree(null);
-		tree.setRoot(tree.buildTree(in, post, in.length));
-		
-		return tree;
 	}
 }
