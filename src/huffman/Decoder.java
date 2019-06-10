@@ -143,13 +143,6 @@ public class Decoder {
 		this.tree = tm.treeFromCodes(charCodes);
 		
 	}
-	
-	public static void main(String[] args) throws FileNotFoundException {
-		Encoder e = new Encoder("inputText.txt");
-		e.encode();
-		Decoder d = new Decoder();
-		d.decode("output.bin");
-	}
 
 	/**
 	 * order for reading little endian as big endian
