@@ -21,11 +21,10 @@ public class TreeMaker {
 		int[][] array = new int[200][2];
 		// gets the input from txt file
 		Scanner sc = new Scanner(inputFile);
-
+		
 		String input = "";
 		while (sc.hasNextLine()) {
 			input = sc.nextLine();
-
 			for (int i = 0; i < input.length(); i++) {
 				char currentChar = input.charAt(i);
 
@@ -45,6 +44,11 @@ public class TreeMaker {
 
 		array = shorten(array); // reduces size of array to not have empty entries
 		return array;
+	}
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		Encoder e = new Encoder("inputText.txt");
+		e.encode();
 	}
 
 	/**

@@ -30,8 +30,9 @@ public class Encoder {
 		Tree tree = null;
 		TreeMaker tm = new TreeMaker();
 		FileOutputStream fos = null;
+		String outputName = inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.')) + "-compressed" + ".bin";
 		try {
-			fos = new FileOutputStream(new File("output.bin"));
+			fos = new FileOutputStream(new File(outputName));
 			tree = tm.makeTree(this.inputFile);
 			encode(tree.getCharCodes(), fos);
 		} catch (IOException e) {
