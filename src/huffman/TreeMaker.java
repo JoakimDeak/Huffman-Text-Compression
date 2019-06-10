@@ -45,11 +45,6 @@ public class TreeMaker {
 		array = shorten(array); // reduces size of array to not have empty entries
 		return array;
 	}
-	
-	public static void main(String[] args) throws FileNotFoundException {
-		Encoder e = new Encoder("inputText.txt");
-		e.encode();
-	}
 
 	/**
 	 * @param array
