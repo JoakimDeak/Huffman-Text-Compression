@@ -169,7 +169,6 @@ public class TreeMaker {
 			}
 		}
 		Tree tree = new Tree(list.get(0)); // the only node left in list is root node
-		tree.export(); // exports the tree to .data file
 		return tree;
 	}
 
@@ -188,11 +187,11 @@ public class TreeMaker {
 		return makeTreeFromList(list);
 	}
 
-	public static Tree treeFromCodes(ArrayList<String> codes) {
+	public Tree treeFromCodes(ArrayList<String> codes) {
 		return new Tree(treeFromCodes(codes, 0, new Node()));
 	}
 
-	private static Node treeFromCodes(ArrayList<String> codes, int level, Node node) {
+	private Node treeFromCodes(ArrayList<String> codes, int level, Node node) {
 
 		// creating sublists for character codes
 		ArrayList<String> left = new ArrayList<String>();

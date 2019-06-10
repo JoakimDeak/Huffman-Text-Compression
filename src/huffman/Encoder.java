@@ -53,9 +53,13 @@ public class Encoder {
 	 * @throws IOException
 	 */
 	private void encode(ArrayList<String> charCodes, FileOutputStream fos) throws IOException {
+		
+		writeHeader(charCodes, fos);
+		
 		Scanner sc = new Scanner(this.inputFile);
 		StringBuilder encoded = new StringBuilder();
 		int encodedLengthBeforeWrite = 256; // how many bits will be written at a time
+		
 		while (sc.hasNextLine()) { // go through every line
 			String cLine = sc.nextLine();
 			for (int i = 0; i < cLine.length(); i++) { // go through every character
@@ -81,6 +85,33 @@ public class Encoder {
 
 		sc.close();
 		fos.close();
+	}
+
+	public void writeHeader(ArrayList<String> charCodes, FileOutputStream fos) throws IOException {
+
+		StringBuilder sb = new StringBuilder();
+
+		for (String code : charCodes) {
+			byte character = (byte) code.charAt(0);
+			sb.append(String.format("%8s", Integer.toBinaryString(character & 0xFF)).replace(' ', '0'));
+			byte numOfBits = (byte) (code.length() - 1);
+			sb.append(String.format("%8s", Integer.toBinaryString(numOfBits & 0xFF)).replace(' ', '0'));
+			sb.append(code.substring(1, code.length()));
+		}
+		
+		int numOfBytes = sb.length() / 8;
+		byte bytesToWriteNumber = (byte) (numOfBytes / 255 + 1);
+		fos.write(bytesToWriteNumber);
+		for(int i = 0; i < bytesToWriteNumber; i++) {
+			if(numOfBytes > 255) {
+				fos.write(255);
+				numOfBytes -= 255;
+			} else {
+				fos.write(numOfBytes);
+			}
+		}
+
+		write(sb.length(), sb, fos);
 	}
 
 	/**
