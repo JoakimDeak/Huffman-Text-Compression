@@ -29,6 +29,10 @@ public class Node implements Serializable, Comparable<Node> {
 	public Node(char character) {
 		this.character = character;
 	}
+	
+	public Node() {
+		
+	}
 
 	public Node right() {
 		return this.right;

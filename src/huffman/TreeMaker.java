@@ -187,4 +187,39 @@ public class TreeMaker {
 
 		return makeTreeFromList(list);
 	}
+
+	public static Tree treeFromCodes(ArrayList<String> codes) {
+		return new Tree(treeFromCodes(codes, 0, new Node()));
+	}
+
+	private static Node treeFromCodes(ArrayList<String> codes, int level, Node node) {
+
+		// creating sublists for character codes
+		ArrayList<String> left = new ArrayList<String>();
+		ArrayList<String> right = new ArrayList<String>();
+
+		// sorting character codes into sublists
+		for (String code : codes) {
+			if (code.charAt(level + 1) == '0') {
+				left.add(code);
+			} else {
+				right.add(code);
+			}
+		}
+
+		// create leaf node with character or create structure node and make recursive call
+		if (left.size() == 1) {
+			node.setLeft(new Node(left.get(0).charAt(0)));
+		} else {
+			node.setLeft(treeFromCodes(left, level + 1, new Node()));
+		}
+
+		if (right.size() == 1) {
+			node.setRight(new Node(right.get(0).charAt(0)));
+		} else {
+			node.setRight(treeFromCodes(right, level + 1, new Node()));
+		}
+
+		return node;
+	}
 }
