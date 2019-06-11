@@ -1,13 +1,7 @@
 package huffman;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Tree implements Serializable {
 	/**
@@ -34,39 +28,8 @@ public class Tree implements Serializable {
 	 * @return
 	 */
 	public ArrayList<String> getCharCodes() {
-		BufferedWriter writer = null;
-		File file = null;
-		try {
-			file = new File("charCodesTemp.txt"); // allows the codes to be saved from the recursive method
-			writer = new BufferedWriter(new FileWriter(file));
-			this.root.getCharCodes(writer);
-			writer.close();
-			return getCharCodes(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} finally { // makes sure the writer gets closed
-			try {
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private ArrayList<String> getCharCodes(File file) throws FileNotFoundException {
-
-		Scanner sc = new Scanner(file);
-		ArrayList<String> codes = new ArrayList<String>();
-
-		while (sc.hasNextLine()) { // saves every line from file to arraylist
-			codes.add(sc.nextLine());
-		}
-
-		sc.close();
-		file.delete(); // once all data has been read from file delete the file
-
-		return codes;
+		ArrayList<String> charCodes = new ArrayList<String>();
+		return this.root.getCharCode("", charCodes);
 	}
 
 	/**

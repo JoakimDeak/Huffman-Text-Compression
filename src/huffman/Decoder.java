@@ -38,7 +38,7 @@ public class Decoder {
 			fis = new FileInputStream(inputFileName);
 			readHeader(fis);
 
-			String outputFileName = "Decoded-" + inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
+			String outputFileName = "uncompressed-" + inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
 			writer = new BufferedWriter(new FileWriter(outputFileName));
 
 			decode(fis, writer); // method call to decode text

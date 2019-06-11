@@ -1,8 +1,7 @@
 package huffman;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Node implements Serializable, Comparable<Node> {
 
@@ -91,26 +90,22 @@ public class Node implements Serializable, Comparable<Node> {
 		output += "]";
 		return output;
 	}
-
-	public void getCharCodes(BufferedWriter writer) throws IOException {
-		getCharCodes(this, "", writer);
-	}
-
-	private String getCharCodes(Node node, String output, BufferedWriter writer) throws IOException {
-
-		if (node.isLeaf()) {
-			writer.write(node.character + output);
-			writer.newLine();
-		} else {
-			if (node.left() != null) {
-				getCharCodes(node.left, output + "0", writer);
-			}
-			if (node.right() != null) {
-				getCharCodes(node.right, output + "1", writer);
-			}
+	
+	public ArrayList<String> getCharCode(String cCode, ArrayList<String> charCodes) {
+		
+		if(this.isLeaf()) {
+			charCodes.add(this.getCharacter() + cCode);
+			return charCodes;
 		}
-
-		return output;
+		
+		if(this.left() != null) {
+			charCodes = this.left().getCharCode(cCode + "0", charCodes);
+		}
+		if(this.right() != null) {
+			charCodes = this.right().getCharCode(cCode + "1", charCodes);
+		}
+		
+		return charCodes;
 	}
 
 	public int compareTo(Node node) {
