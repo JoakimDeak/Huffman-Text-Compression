@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Decoder {
@@ -74,5 +75,33 @@ public class Decoder {
 
 	private void createTree(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		this.tree = (Tree) ois.readObject(); // creates tree from .data file
+		
+		
+		ArrayList<String> c = this.tree.getCharCodes();
+		for(String s : c) {
+			System.out.println(s);
+		}
+	}
+	
+	public static void testDecode() throws IOException {
+		StringBuilder sb = new StringBuilder();
+		FileInputStream fis = new FileInputStream(new File("output.bin"));
+		File f = new File("output.bin");
+//		while(f.length() > 0) {
+			byte[] b = new byte[2];
+			fis.read(b); // it does work
+			for(byte by : b) {
+				for(int n = 7; n >= 0; n--) {
+					sb.append(((by >> (n)) & 1));
+				}
+			}
+			
+//		}
+			
+			
+	}
+	
+	public static void main(String[] args) throws IOException {
+		testDecode();
 	}
 }
