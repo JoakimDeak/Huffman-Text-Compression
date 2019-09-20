@@ -5,18 +5,26 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Needs some big reworks
+ */
 public class TreeMaker {
-	// makes the list of all characters and their frequency
+	/**
+	 * makes the list of all characters and their frequency
+	 * 
+	 * @param inputFile
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	private int[][] makeList(File inputFile) throws FileNotFoundException {
 
-		int[][] array = new int[100][2];
+		int[][] array = new int[200][2];
 		// gets the input from txt file
 		Scanner sc = new Scanner(inputFile);
-
+		
 		String input = "";
 		while (sc.hasNextLine()) {
 			input = sc.nextLine();
-
 			for (int i = 0; i < input.length(); i++) {
 				char currentChar = input.charAt(i);
 
@@ -38,6 +46,11 @@ public class TreeMaker {
 		return array;
 	}
 
+	/**
+	 * @param array
+	 * @param character
+	 * @return
+	 */
 	private int indexOf(int[][] array, char character) {
 
 		for (int i = 0; i < array.length; i++) {
@@ -49,8 +62,14 @@ public class TreeMaker {
 		return -1; // character did not have an entry
 	}
 
+	/**
+	 * finding the next empty entry
+	 * 
+	 * @param array
+	 * @return
+	 */
 	private int nextEmpty(int[][] array) {
-		// finding the next empty entry
+
 		for (int i = 0; i < array.length; i++) {
 			if (array[i][0] == 0) {
 				return i;
@@ -60,6 +79,10 @@ public class TreeMaker {
 		return -1; // no empty entry was found, array size is too small
 	}
 
+	/**
+	 * @param array
+	 * @return
+	 */
 	private int[][] shorten(int[][] array) {
 		// seeing how many non empty entries there are
 		int i = array.length - 1;
@@ -77,6 +100,10 @@ public class TreeMaker {
 		return shortArray;
 	}
 
+	/**
+	 * @param array
+	 * @return
+	 */
 	private int[][] sort(int[][] array) {
 		// sorts the list accoring to frequency
 		// using insertion is not a problem due to small array size
@@ -100,7 +127,11 @@ public class TreeMaker {
 		return array;
 	}
 
-	private ArrayList<Node> makeExternalNodes(int[][] array) {
+	/**
+	 * @param array
+	 * @return
+	 */
+	public ArrayList<Node> makeExternalNodes(int[][] array) {
 
 		ArrayList<Node> list = new ArrayList<Node>();
 
@@ -110,12 +141,12 @@ public class TreeMaker {
 		return list;
 	}
 
-	public Tree makeTree(File inputFile) throws FileNotFoundException {
-
-		int[][] array = makeList(inputFile);
-		array = sort(array);
-		ArrayList<Node> list = new ArrayList<Node>();
-		list = makeExternalNodes(array);
+	/**
+	 * @param inputFile
+	 * @return
+	 * @throws FileNotFoundException
+	 */
+	public Tree makeTreeFromList(ArrayList<Node> list) throws FileNotFoundException {
 
 		while (list.size() > 1) {
 			Node one = list.get(0);
@@ -137,7 +168,56 @@ public class TreeMaker {
 			}
 		}
 		Tree tree = new Tree(list.get(0)); // the only node left in list is root node
-		tree.export(); // exports the tree to .data file
 		return tree;
+	}
+
+	/**
+	 * @param inputFile
+	 * @return
+	 * @throws FileNotFoundException
+	 */
+	public Tree makeTree(File inputFile) throws FileNotFoundException {
+
+		int[][] array = makeList(inputFile);
+		array = sort(array);
+		ArrayList<Node> list = new ArrayList<Node>();
+		list = makeExternalNodes(array);
+
+		return makeTreeFromList(list);
+	}
+
+	public Tree treeFromCodes(ArrayList<String> codes) {
+		return new Tree(treeFromCodes(codes, 0, new Node()));
+	}
+
+	private Node treeFromCodes(ArrayList<String> codes, int level, Node node) {
+
+		// creating sublists for character codes
+		ArrayList<String> left = new ArrayList<String>();
+		ArrayList<String> right = new ArrayList<String>();
+
+		// sorting character codes into sublists
+		for (String code : codes) {
+			if (code.charAt(level + 1) == '0') {
+				left.add(code);
+			} else {
+				right.add(code);
+			}
+		}
+
+		// create leaf node with character or create structure node and make recursive call
+		if (left.size() == 1) {
+			node.setLeft(new Node(left.get(0).charAt(0)));
+		} else {
+			node.setLeft(treeFromCodes(left, level + 1, new Node()));
+		}
+
+		if (right.size() == 1) {
+			node.setRight(new Node(right.get(0).charAt(0)));
+		} else {
+			node.setRight(treeFromCodes(right, level + 1, new Node()));
+		}
+
+		return node;
 	}
 }

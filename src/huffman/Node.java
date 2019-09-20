@@ -1,30 +1,36 @@
 package huffman;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Node implements Serializable {
+public class Node implements Serializable, Comparable<Node> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6302191902117718521L;
 	private char character;
 	private Node left;
 	private Node right;
 	private int frequency;
 
-	public Node(Node left, Node right) { // constructor for internal nodes
+	/** constructor for internal nodes */
+	public Node(Node left, Node right) {
 		this.left = left;
 		this.right = right;
 		this.frequency = left.getFrequency() + right.getFrequency();
 
 	}
 
-	public Node(char character, int frequency) { // constructor for external nodes / leaf nodes
+	/** constructor for external nodes / leaf nodes */
+	public Node(char character, int frequency) {
 		this.character = character;
 		this.frequency = frequency;
+	}
+
+	public Node(char character) {
+		this.character = character;
+	}
+	
+	public Node() {
+		
 	}
 
 	public Node right() {
@@ -33,6 +39,14 @@ public class Node implements Serializable {
 
 	public Node left() {
 		return this.left;
+	}
+
+	public void setRight(Node right) {
+		this.right = right;
+	}
+
+	public void setLeft(Node left) {
+		this.left = left;
 	}
 
 	public int getFrequency() {
@@ -76,26 +90,36 @@ public class Node implements Serializable {
 		output += "]";
 		return output;
 	}
-
-	public void getCharCodes(BufferedWriter writer) throws IOException {
-		getCharCodes(this, "", writer);
+	
+	public ArrayList<String> getCharCode(String cCode, ArrayList<String> charCodes) {
+		
+		if(this.isLeaf()) {
+			charCodes.add(this.getCharacter() + cCode);
+			return charCodes;
+		}
+		
+		if(this.left() != null) {
+			charCodes = this.left().getCharCode(cCode + "0", charCodes);
+		}
+		if(this.right() != null) {
+			charCodes = this.right().getCharCode(cCode + "1", charCodes);
+		}
+		
+		return charCodes;
 	}
 
-	private String getCharCodes(Node node, String output, BufferedWriter writer) throws IOException {
+	public int compareTo(Node node) {
 
-		if (node.isLeaf()) {
-			writer.write(node.character + output);
-			writer.newLine();
-		} else {
-			if (node.left() != null) {
-				getCharCodes(node.left, output + "0", writer);
-			}
-			if (node.right() != null) {
-				getCharCodes(node.right, output + "1", writer);
-			}
+		int node1 = this.frequency;
+		int node2 = node.getFrequency();
+
+		if (node1 > node2) {
+			return 1;
+		}
+		if (node1 < node2) {
+			return -1;
 		}
 
-		return output;
-
+		return 0;
 	}
 }
