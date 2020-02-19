@@ -6,13 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-<<<<<<< HEAD
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
-=======
-import java.util.ArrayList;
->>>>>>> c17ce2eef43a1950c52e172c220ebe3800a972a0
+
 
 public class Decoder {
 
@@ -145,49 +140,11 @@ public class Decoder {
 			charCodes.add(charCode);
 		}
 		
-		TreeMaker tm = new TreeMaker();
+		NewTreeMaker tm = new NewTreeMaker();
 		this.tree = tm.treeFromCodes(charCodes);
 		
 	}
-
-<<<<<<< HEAD
-	private void createTree(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-		this.tree = (Tree) ois.readObject(); // creates tree from .data file
-		
-		
-		ArrayList<String> c = this.tree.getCharCodes();
-		for(String s : c) {
-			System.out.println(s);
-		}
-	}
 	
-	public static void testDecode() throws IOException {
-		StringBuilder sb = new StringBuilder();
-		FileInputStream fis = new FileInputStream(new File("output.bin"));
-		File f = new File("output.bin");
-//		while(f.length() > 0) {
-			byte[] b = new byte[2];
-			fis.read(b); // it does work
-			for(byte by : b) {
-				for(int n = 7; n >= 0; n--) {
-					sb.append(((by >> (n)) & 1));
-				}
-			}
-			
-//		}
-			
-			
-	}
-	
-	public static void main(String[] args) throws IOException {
-		testDecode();
-=======
-	/**
-	 * order for reading little endian as big endian
-	 * 
-	 * @param littleE
-	 * @return
-	 */
 	private int bigE(int littleE) {
 		int bigE = littleE / 8;
 		bigE *= 8;
@@ -195,6 +152,5 @@ public class Decoder {
 		bigE -= littleE % 8;
 
 		return bigE;
->>>>>>> c17ce2eef43a1950c52e172c220ebe3800a972a0
 	}
 }

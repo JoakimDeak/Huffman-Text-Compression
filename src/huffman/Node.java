@@ -1,11 +1,9 @@
 package huffman;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Node implements Serializable, Comparable<Node> {
+public class Node implements Comparable<Node> {
 
-	private static final long serialVersionUID = -6302191902117718521L;
 	private char character;
 	private Node left;
 	private Node right;
@@ -114,10 +112,10 @@ public class Node implements Serializable, Comparable<Node> {
 		int node2 = node.getFrequency();
 
 		if (node1 > node2) {
-			return 1;
+			return -1;
 		}
 		if (node1 < node2) {
-			return -1;
+			return 1;
 		}
 
 		return 0;

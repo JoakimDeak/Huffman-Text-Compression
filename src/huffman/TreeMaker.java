@@ -7,7 +7,9 @@ import java.util.Scanner;
 
 /**
  * Needs some big reworks
+ * This class is no longer in use and serves only to remind me of my progress
  */
+@Deprecated
 public class TreeMaker {
 	/**
 	 * makes the list of all characters and their frequency

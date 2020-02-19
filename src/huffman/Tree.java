@@ -1,13 +1,9 @@
 package huffman;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tree implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4087141033489848748L;
+public class Tree{
+
 	private Node root;
 
 	public Tree(Node root) {
