@@ -59,9 +59,8 @@ public class NewTreeMaker {
 			Node tNode = new Node(nList.get(l), nList.get(l - 1));
 			nList.remove(l);
 			nList.remove(l - 1);
-
-			nList.add(tNode);
-			Collections.sort(nList, Collections.reverseOrder());
+			
+			insertNode(nList, tNode);
 
 			l = nList.size() - 1;
 		}
@@ -69,6 +68,25 @@ public class NewTreeMaker {
 		Tree t = new Tree(root);
 		return t;
 	}
+	
+	// inserting element in list sorted in descending order
+		private void insertNode(ArrayList<Node> list, Node node) {
+			int nodeF = node.getFrequency();
+			if(nodeF > list.get(0).getFrequency()) { // add at start of list
+				list.add(0, node);
+				return;
+			}
+			if(nodeF < list.get(list.size() - 1).getFrequency()) { // add at end of list
+				list.add(node);
+				return;
+			}
+			for(int i = 1; i < list.size() - 1; i++) { // add somewhere in the middle
+				if(list.get(i).getFrequency() < nodeF) {
+					list.add(i, node);
+					return;
+				}
+			}
+		}
 	
 	public Tree treeFromCodes(ArrayList<String> codes) {
 		return new Tree(treeFromCodes(codes, 0, new Node()));
