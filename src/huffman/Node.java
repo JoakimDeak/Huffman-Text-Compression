@@ -112,10 +112,10 @@ public class Node implements Comparable<Node> {
 		int node2 = node.getFrequency();
 
 		if (node1 > node2) {
-			return -1;
+			return 1;
 		}
 		if (node1 < node2) {
-			return 1;
+			return -1;
 		}
 
 		return 0;

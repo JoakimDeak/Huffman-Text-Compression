@@ -53,7 +53,7 @@ public class NewTreeMaker {
 	}
 
 	private Tree makeTreeFromList(ArrayList<Node> nList) {
-		Collections.sort(nList);
+		Collections.sort(nList, Collections.reverseOrder());
 		int l = nList.size() - 1;
 		while (l > 1) {
 			Node tNode = new Node(nList.get(l), nList.get(l - 1));
@@ -61,7 +61,7 @@ public class NewTreeMaker {
 			nList.remove(l - 1);
 
 			nList.add(tNode);
-			Collections.sort(nList);
+			Collections.sort(nList, Collections.reverseOrder());
 
 			l = nList.size() - 1;
 		}
