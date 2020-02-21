@@ -20,7 +20,7 @@ public class Main {
 
 	private static void showCompressMenu() {
 		Scanner sc = new Scanner(System.in);
-		showBanner();
+		//showBanner();
 		System.out.println("Enter name of the file you wish to compress");
 		System.out.println("Type exit to return to the main menu");
 
@@ -64,7 +64,7 @@ public class Main {
 
 	private static void showUncompressMenu() {
 		Scanner sc = new Scanner(System.in);
-		showBanner();
+		//showBanner();
 		System.out.println("Enter name of the file you wish to uncompress");
 		System.out.println("Type exit to return to the main menu");
 		boolean exit = false;
