@@ -3,189 +3,89 @@ package huffman;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
-/**
- * Needs some big reworks
- * This class is no longer in use and serves only to remind me of my progress
- */
-@Deprecated
 public class TreeMaker {
-	/**
-	 * makes the list of all characters and their frequency
-	 * 
-	 * @param inputFile
-	 * @return
-	 * @throws FileNotFoundException
-	 */
-	private int[][] makeList(File inputFile) throws FileNotFoundException {
 
-		int[][] array = new int[200][2];
-		// gets the input from txt file
-		Scanner sc = new Scanner(inputFile);
-		
-		String input = "";
+	public Tree makeTree(File filename) throws FileNotFoundException {
+
+		HashMap<Character, Integer> map = readFile(filename);
+		ArrayList<Node> nList = makeNodeList(map);
+		Tree t = makeTreeFromList(nList);
+
+		return t;
+	}
+
+	private ArrayList<Node> makeNodeList(HashMap<Character, Integer> map) {
+		ArrayList<Node> nList = new ArrayList<Node>();
+
+		for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+			Node n = new Node(entry.getKey(), entry.getValue());
+			nList.add(n);
+		}
+		return nList;
+	}
+
+	private HashMap<Character, Integer> readFile(File fileName) throws FileNotFoundException {
+
+		String s;
+		HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+
+		Scanner sc = new Scanner(fileName);
+
 		while (sc.hasNextLine()) {
-			input = sc.nextLine();
-			for (int i = 0; i < input.length(); i++) {
-				char currentChar = input.charAt(i);
+			s = sc.nextLine() /* + '\n' */;
 
-				int indexOfChar = indexOf(array, currentChar); // get index from list of chars
-				if (indexOfChar != -1) { // if the char has an entry
-					array[indexOfChar][1]++;
-				} else { // create entry
-					int indexOfNext = nextEmpty(array);
-					array[indexOfNext][0] = (int) currentChar;
-					array[indexOfNext][1] = 1;
+			for (int i = 0; i < s.length(); i++) {
+				char cChar = s.charAt(i);
+				if (map.containsKey(cChar)) {
+					map.put(cChar, map.get(cChar) + 1);
+				} else {
+					map.put(s.charAt(i), 1);
 				}
-
 			}
 		}
-
 		sc.close();
-
-		array = shorten(array); // reduces size of array to not have empty entries
-		return array;
+		return map;
 	}
 
-	/**
-	 * @param array
-	 * @param character
-	 * @return
-	 */
-	private int indexOf(int[][] array, char character) {
+	private Tree makeTreeFromList(ArrayList<Node> nList) {
+		Collections.sort(nList, Collections.reverseOrder());
+		int l = nList.size() - 1;
+		while (l > 1) {
+			Node tNode = new Node(nList.get(l), nList.get(l - 1));
+			nList.remove(l);
+			nList.remove(l - 1);
 
-		for (int i = 0; i < array.length; i++) {
-			if (array[i][0] == (int) character) {
-				return i; // index where characters entry is
+			insertNode(nList, tNode);
+
+			l = nList.size() - 1;
+		}
+		Node root = new Node(nList.get(0), nList.get(1));
+		Tree t = new Tree(root);
+		return t;
+	}
+
+	// inserting element in list sorted in descending order
+	private void insertNode(ArrayList<Node> list, Node node) {
+		int nodeF = node.getFrequency();
+		if (nodeF > list.get(0).getFrequency()) { // add at start of list
+			list.add(0, node);
+			return;
+		}
+		if (nodeF < list.get(list.size() - 1).getFrequency()) { // add at end of list
+			list.add(node);
+			return;
+		}
+		for (int i = 1; i < list.size(); i++) { // add somewhere in the middle
+			if (list.get(i).getFrequency() < nodeF) {
+				list.add(i, node);
+				return;
 			}
 		}
-
-		return -1; // character did not have an entry
-	}
-
-	/**
-	 * finding the next empty entry
-	 * 
-	 * @param array
-	 * @return
-	 */
-	private int nextEmpty(int[][] array) {
-
-		for (int i = 0; i < array.length; i++) {
-			if (array[i][0] == 0) {
-				return i;
-			}
-		}
-
-		return -1; // no empty entry was found, array size is too small
-	}
-
-	/**
-	 * @param array
-	 * @return
-	 */
-	private int[][] shorten(int[][] array) {
-		// seeing how many non empty entries there are
-		int i = array.length - 1;
-		while (i > 0 && array[i][0] == 0) {
-			i--;
-		}
-		// makes array of that size and copies all entries over to it
-		int[][] shortArray = new int[i + 1][2];
-
-		for (int j = 0; j < i + 1; j++) {
-			shortArray[j][0] = array[j][0];
-			shortArray[j][1] = array[j][1];
-		}
-
-		return shortArray;
-	}
-
-	/**
-	 * @param array
-	 * @return
-	 */
-	private int[][] sort(int[][] array) {
-		// sorts the list accoring to frequency
-		// using insertion is not a problem due to small array size
-		for (int i = 0; i < array.length; i++) {
-			int smallest = Integer.MAX_VALUE;
-			int indexOfSmallest = -1;
-
-			for (int j = i; j < array.length; j++) {
-				if (array[j][1] < smallest) {
-					smallest = array[j][1];
-					indexOfSmallest = j;
-				}
-			}
-
-			int[] temp = array[indexOfSmallest];
-			array[indexOfSmallest] = array[i];
-			array[i] = temp;
-
-		}
-
-		return array;
-	}
-
-	/**
-	 * @param array
-	 * @return
-	 */
-	public ArrayList<Node> makeExternalNodes(int[][] array) {
-
-		ArrayList<Node> list = new ArrayList<Node>();
-
-		for (int i = 0; i < array.length; i++) {
-			list.add(new Node((char) array[i][0], array[i][1]));
-		}
-		return list;
-	}
-
-	/**
-	 * @param inputFile
-	 * @return
-	 * @throws FileNotFoundException
-	 */
-	public Tree makeTreeFromList(ArrayList<Node> list) throws FileNotFoundException {
-
-		while (list.size() > 1) {
-			Node one = list.get(0);
-			Node two = list.get(1);
-			Node temp = new Node(one, two);
-			list.remove(one);
-			list.remove(two);
-
-			boolean inserted = false;
-			for (int i = 0; i < list.size(); i++) {
-				if (inserted == false && list.get(i).getFrequency() > temp.getFrequency()) {
-					list.add(i, temp);
-					inserted = true;
-				}
-			}
-			if (inserted == false) {
-				list.add(list.size(), temp);
-				inserted = true;
-			}
-		}
-		Tree tree = new Tree(list.get(0)); // the only node left in list is root node
-		return tree;
-	}
-
-	/**
-	 * @param inputFile
-	 * @return
-	 * @throws FileNotFoundException
-	 */
-	public Tree makeTree(File inputFile) throws FileNotFoundException {
-
-		int[][] array = makeList(inputFile);
-		array = sort(array);
-		ArrayList<Node> list = new ArrayList<Node>();
-		list = makeExternalNodes(array);
-
-		return makeTreeFromList(list);
 	}
 
 	public Tree treeFromCodes(ArrayList<String> codes) {
@@ -207,7 +107,8 @@ public class TreeMaker {
 			}
 		}
 
-		// create leaf node with character or create structure node and make recursive call
+		// create leaf node with character or create structure node and make recursive
+		// call
 		if (left.size() == 1) {
 			node.setLeft(new Node(left.get(0).charAt(0)));
 		} else {

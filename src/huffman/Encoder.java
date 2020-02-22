@@ -28,7 +28,7 @@ public class Encoder {
 
 	public void encode() {
 		Tree tree = null;
-		NewTreeMaker tm = new NewTreeMaker();
+		TreeMaker tm = new TreeMaker();
 		FileOutputStream fos = null;
 		String outputName = inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.')) + "-compressed" + ".bin";
 		try {

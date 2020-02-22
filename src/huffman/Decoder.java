@@ -140,7 +140,7 @@ public class Decoder {
 			charCodes.add(charCode);
 		}
 		
-		NewTreeMaker tm = new NewTreeMaker();
+		TreeMaker tm = new TreeMaker();
 		this.tree = tm.treeFromCodes(charCodes);
 		
 	}
