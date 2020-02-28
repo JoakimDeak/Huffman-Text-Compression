@@ -9,8 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-
 
 public class Decoder {
 
@@ -116,49 +114,6 @@ public class Decoder {
 	
 	private void readHeader(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		this.tree = (Tree) ois.readObject();
-	}
-	
-	// old version for readHeader
-	private void readHeader(FileInputStream fis) throws IOException {
-		int bytesToRead = fis.read();
-		int bytesOfCharCodeData = 0;
-		for(int i = 0; i < bytesToRead; i++) {
-			bytesOfCharCodeData += fis.read();
-		}
-		
-		byte[] charCodeData = new byte[bytesOfCharCodeData];
-		fis.read(charCodeData);
-		StringBuilder sb = new StringBuilder();
-		for(byte b : charCodeData) {
-			sb.append(String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0'));
-		}
-		
-		StringBuilder fixed = new StringBuilder();
-		
-		for(int i = 0; i < sb.length(); i++) {
-			int ai = bigE(i);
-			fixed.append(sb.charAt(ai));
-		}
-		
-		ArrayList<String> charCodes = new ArrayList<String>();
-		
-		for(int i = 0; i < fixed.length(); i *= 1) {
-			String binCharacter = fixed.substring(i, i + 8);
-			char character = (char) Integer.parseInt(binCharacter, 2);
-			i += 8;
-			String stringInt = fixed.substring(i, i + 8);
-			i += 8;
-			int codeLength = Integer.parseInt(stringInt, 2);
-			String code = fixed.substring(i, i + codeLength);
-			i += codeLength;
-			
-			String charCode = character + code;
-			charCodes.add(charCode);
-		}
-		
-		TreeMaker tm = new TreeMaker();
-		this.tree = tm.treeFromCodes(charCodes);
-		
 	}
 	
 	private static int sizeof(Object obj) throws IOException {

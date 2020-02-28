@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Node implements Comparable<Node>, Serializable {
 
+	private static final long serialVersionUID = -5807385317217770354L;
 	private char character;
 	private Node left;
 	private Node right;

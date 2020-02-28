@@ -98,34 +98,6 @@ public class Encoder {
 		oos.close();
 	}
 
-	// old version for writeHeader
-	private void writeHeader(ArrayList<String> charCodes, FileOutputStream fos) throws IOException {
-
-		StringBuilder sb = new StringBuilder();
-
-		for (String code : charCodes) {
-			byte character = (byte) code.charAt(0);
-			sb.append(String.format("%8s", Integer.toBinaryString(character & 0xFF)).replace(' ', '0'));
-			byte numOfBits = (byte) (code.length() - 1);
-			sb.append(String.format("%8s", Integer.toBinaryString(numOfBits & 0xFF)).replace(' ', '0'));
-			sb.append(code.substring(1, code.length()));
-		}
-		
-		int numOfBytes = sb.length() / 8;
-		byte bytesToWriteNumber = (byte) (numOfBytes / 255 + 1);
-		fos.write(bytesToWriteNumber);
-		for(int i = 0; i < bytesToWriteNumber; i++) {
-			if(numOfBytes > 255) {
-				fos.write(255);
-				numOfBytes -= 255;
-			} else {
-				fos.write(numOfBytes);
-			}
-		}
-
-		write(sb.length(), sb, fos);
-	}
-
 	/**
 	 * @param charsToWrite
 	 * @param input

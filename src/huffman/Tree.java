@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Tree implements Serializable{
 
+	private static final long serialVersionUID = -6116295339098230292L;
 	private Node root;
 
 	public Tree(Node root) {
