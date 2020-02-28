@@ -67,7 +67,7 @@ public class Encoder {
 		int encodedLengthBeforeWrite = 256; // how many bits will be written at a time
 		
 		while (sc.hasNextLine()) { // go through every line
-			String cLine = sc.nextLine();
+			String cLine = sc.nextLine() + System.lineSeparator();
 			for (int i = 0; i < cLine.length(); i++) { // go through every character
 				char cChar = cLine.charAt(i);
 				for (String code : charCodes) { // find entry for current character in
