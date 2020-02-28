@@ -96,8 +96,10 @@ public class Encoder {
 	private void writeHeader(Tree tree, ObjectOutputStream oos) throws IOException {
 		oos.writeObject(tree);
 		oos.close();
+		tree.print();
 	}
 
+	// old version for writeHeader
 	private void writeHeader(ArrayList<String> charCodes, FileOutputStream fos) throws IOException {
 
 		StringBuilder sb = new StringBuilder();

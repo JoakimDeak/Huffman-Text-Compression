@@ -85,7 +85,7 @@ public class Decoder {
 				bytes = new byte[256];
 			} else { // if there are less than 256 bytes left to read create byte array with smaller
 						// size
-				bytes = new byte[av]; // last byte of file is not character data
+				bytes = new byte[av]; // last byte is not character data
 			}
 
 			fis.read(bytes); // read bytes into byte array
@@ -95,14 +95,8 @@ public class Decoder {
 		}
 
 		Node cNode = this.tree.getRoot(); // start at root of tree
-
 		for (int i = 0; i < littleE.length(); i++) {
 			int ai = bigE(i);
-
-			if (cNode.isLeaf()) { // if leaf has been reached
-				writer.write(cNode.getCharacter()); // write the character
-				cNode = this.tree.getRoot(); // start over from the root
-			}
 
 			char cChar = littleE.charAt(ai); // read character
 
@@ -111,13 +105,20 @@ public class Decoder {
 			} else if (cChar == '1') { // if character is 1 go right
 				cNode = cNode.right();
 			}
+			
+			if (cNode.isLeaf()) { // if leaf has been reached
+				writer.write(cNode.getCharacter()); // write the character
+				cNode = this.tree.getRoot(); // start over from the root
+			}
 		}
 	}
 	
 	private void readHeader(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		this.tree = (Tree) ois.readObject();
+		this.tree.print();
 	}
 	
+	// old version for readHeader
 	private void readHeader(FileInputStream fis) throws IOException {
 		int bytesToRead = fis.read();
 		int bytesOfCharCodeData = 0;

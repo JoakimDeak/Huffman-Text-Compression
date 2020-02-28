@@ -37,7 +37,7 @@ public class TreeMaker {
 		Scanner sc = new Scanner(fileName);
 
 		while (sc.hasNextLine()) {
-			s = sc.nextLine()  + '\n' ;
+			s = sc.nextLine()  + System.lineSeparator();
 
 			for (int i = 0; i < s.length(); i++) {
 				char cChar = s.charAt(i);
