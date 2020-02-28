@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Scanner;
@@ -30,15 +31,18 @@ public class Encoder {
 		Tree tree = null;
 		TreeMaker tm = new TreeMaker();
 		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
 		String outputName = inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.')) + "-compressed" + ".bin";
 		try {
-			fos = new FileOutputStream(new File(outputName));
+			oos = new ObjectOutputStream(new FileOutputStream(new File(outputName)));
+			fos = new FileOutputStream(new File(outputName), true);
 			tree = tm.makeTree(this.inputFile);
-			encode(tree.getCharCodes(), fos);
+			encode(tree.getCharCodes(), fos, oos, tree);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
+				oos.close();
 				fos.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -53,9 +57,10 @@ public class Encoder {
 	 * @param fos
 	 * @throws IOException
 	 */
-	private void encode(ArrayList<String> charCodes, FileOutputStream fos) throws IOException {
+	private void encode(ArrayList<String> charCodes, FileOutputStream fos, ObjectOutputStream oos, Tree tree) throws IOException {
 		
-		writeHeader(charCodes, fos);
+		//writeHeader(charCodes, fos);
+		writeHeader(tree, oos);
 		
 		Scanner sc = new Scanner(this.inputFile);
 		StringBuilder encoded = new StringBuilder();
@@ -87,8 +92,13 @@ public class Encoder {
 		sc.close();
 		fos.close();
 	}
+	
+	private void writeHeader(Tree tree, ObjectOutputStream oos) throws IOException {
+		oos.writeObject(tree);
+		oos.close();
+	}
 
-	public void writeHeader(ArrayList<String> charCodes, FileOutputStream fos) throws IOException {
+	private void writeHeader(ArrayList<String> charCodes, FileOutputStream fos) throws IOException {
 
 		StringBuilder sb = new StringBuilder();
 

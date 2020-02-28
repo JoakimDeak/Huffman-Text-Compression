@@ -1,11 +1,14 @@
 package huffman;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 
@@ -35,9 +38,12 @@ public class Decoder {
 	private void initStreams(String inputFileName) { // creates stream pointers
 		BufferedWriter writer = null;
 		FileInputStream fis = null;
+		ObjectInputStream ois = null;
 		try {
 			fis = new FileInputStream(inputFileName);
-			readHeader(fis);
+			ois = new ObjectInputStream(new FileInputStream(inputFileName));
+			//readHeader(fis);
+			readHeader(ois);
 
 			String outputFileName = "uncompressed-" + inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
 			writer = new BufferedWriter(new FileWriter(outputFileName));
@@ -45,8 +51,11 @@ public class Decoder {
 			decode(fis, writer); // method call to decode text
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		} finally { // closes streams
 			try {
+				ois.close();
 				fis.close();
 				writer.close();
 			} catch (IOException e) {
@@ -65,7 +74,9 @@ public class Decoder {
 	private void decode(FileInputStream fis, BufferedWriter writer) throws IOException {
 
 		StringBuilder littleE = new StringBuilder();
-
+		
+		fis.skip(sizeof(this.tree));
+		
 		while (fis.available() > 0) { // while there are bytes to read
 			int av = fis.available();
 			byte[] bytes = null;
@@ -103,7 +114,11 @@ public class Decoder {
 		}
 	}
 	
-	public void readHeader(FileInputStream fis) throws IOException {
+	private void readHeader(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+		this.tree = (Tree) ois.readObject();
+	}
+	
+	private void readHeader(FileInputStream fis) throws IOException {
 		int bytesToRead = fis.read();
 		int bytesOfCharCodeData = 0;
 		for(int i = 0; i < bytesToRead; i++) {
@@ -144,6 +159,18 @@ public class Decoder {
 		this.tree = tm.treeFromCodes(charCodes);
 		
 	}
+	
+	private static int sizeof(Object obj) throws IOException {
+
+        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteOutputStream);
+
+        objectOutputStream.writeObject(obj);
+        objectOutputStream.flush();
+        objectOutputStream.close();
+
+        return byteOutputStream.toByteArray().length;
+    }
 	
 	private int bigE(int littleE) {
 		int bigE = littleE / 8;

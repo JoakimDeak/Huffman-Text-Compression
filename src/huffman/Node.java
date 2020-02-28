@@ -1,8 +1,9 @@
 package huffman;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Node implements Comparable<Node> {
+public class Node implements Comparable<Node>, Serializable {
 
 	private char character;
 	private Node left;
