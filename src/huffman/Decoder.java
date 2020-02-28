@@ -45,7 +45,7 @@ public class Decoder {
 			//readHeader(fis);
 			readHeader(ois);
 
-			String outputFileName = "uncompressed-" + inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
+			String outputFileName = inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
 			writer = new BufferedWriter(new FileWriter(outputFileName));
 
 			decode(fis, writer); // method call to decode text

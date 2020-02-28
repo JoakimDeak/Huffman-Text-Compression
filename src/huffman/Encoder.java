@@ -32,7 +32,7 @@ public class Encoder {
 		TreeMaker tm = new TreeMaker();
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
-		String outputName = inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.')) + "-compressed" + ".bin";
+		String outputName = inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.')) + ".bin";
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream(new File(outputName)));
 			fos = new FileOutputStream(new File(outputName), true);
