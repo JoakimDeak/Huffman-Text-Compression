@@ -37,7 +37,7 @@ public class TreeMaker {
 		Scanner sc = new Scanner(fileName);
 
 		while (sc.hasNextLine()) {
-			s = sc.nextLine()  + System.lineSeparator();
+			s = sc.nextLine()  + '\n';
 
 			for (int i = 0; i < s.length(); i++) {
 				char cChar = s.charAt(i);
@@ -53,18 +53,24 @@ public class TreeMaker {
 	}
 
 	private Tree makeTreeFromList(ArrayList<Node> nList) {
-		Collections.sort(nList, Collections.reverseOrder());
-		int l = nList.size() - 1;
-		while (l > 1) {
-			Node tNode = new Node(nList.get(l), nList.get(l - 1));
-			nList.remove(l);
-			nList.remove(l - 1);
+		Node root;
+		if(nList.size() == 1) {
+			root = nList.get(0);
+		} else {
+			Collections.sort(nList, Collections.reverseOrder());
+			int l = nList.size() - 1;
+			while (l > 1) {
+				Node tNode = new Node(nList.get(l), nList.get(l - 1));
+				nList.remove(l);
+				nList.remove(l - 1);
 
-			insertNode(nList, tNode);
+				insertNode(nList, tNode);
 
-			l = nList.size() - 1;
+				l = nList.size() - 1;
+			}
+			root = new Node(nList.get(0), nList.get(1));
 		}
-		Node root = new Node(nList.get(0), nList.get(1));
+		
 		Tree t = new Tree(root);
 		return t;
 	}

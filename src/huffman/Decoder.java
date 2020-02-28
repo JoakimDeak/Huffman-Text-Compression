@@ -77,6 +77,8 @@ public class Decoder {
 		
 		fis.skip(sizeof(this.tree));
 		
+		int fillerBits = fis.read();
+		
 		while (fis.available() > 0) { // while there are bytes to read
 			int av = fis.available();
 			byte[] bytes = null;
@@ -93,9 +95,8 @@ public class Decoder {
 				littleE.append(Integer.toBinaryString((b & 0xFF) + 0x100).substring(1));
 			}
 		}
-
 		Node cNode = this.tree.getRoot(); // start at root of tree
-		for (int i = 0; i < littleE.length(); i++) {
+		for (int i = 0; i < littleE.length() - fillerBits; i++) {
 			int ai = bigE(i);
 
 			char cChar = littleE.charAt(ai); // read character
