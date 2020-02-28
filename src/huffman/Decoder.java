@@ -115,7 +115,6 @@ public class Decoder {
 	
 	private void readHeader(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		this.tree = (Tree) ois.readObject();
-		this.tree.print();
 	}
 	
 	// old version for readHeader
