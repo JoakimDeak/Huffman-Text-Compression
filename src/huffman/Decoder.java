@@ -43,7 +43,7 @@ public class Decoder {
 			//readHeader(fis);
 			readHeader(ois);
 
-			String outputFileName = inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
+			String outputFileName = "a" + inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
 			writer = new BufferedWriter(new FileWriter(outputFileName));
 
 			decode(fis, writer); // method call to decode text
@@ -93,8 +93,9 @@ public class Decoder {
 				littleE.append(Integer.toBinaryString((b & 0xFF) + 0x100).substring(1));
 			}
 		}
+		System.out.println("filler bits" + fillerBits);
 		Node cNode = this.tree.getRoot(); // start at root of tree
-		for (int i = 0; i < littleE.length() - fillerBits; i++) {
+		for (int i = 0; i < littleE.length()/* - fillerBits*/; i++) {
 			int ai = bigE(i);
 
 			char cChar = littleE.charAt(ai); // read character

@@ -86,6 +86,7 @@ public class Encoder {
 				encoded.append('0');
 			}
 			fos.write(bitsToBeAdded);
+			System.out.println("fillerbits pre" + bitsToBeAdded);
 			write(encoded.length(), encoded, fos); // write the remaining characters
 		}
 

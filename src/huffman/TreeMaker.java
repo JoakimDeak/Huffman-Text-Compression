@@ -78,16 +78,16 @@ public class TreeMaker {
 	// inserting element in list sorted in descending order
 	private void insertNode(ArrayList<Node> list, Node node) {
 		int nodeF = node.getFrequency();
-		if (nodeF > list.get(0).getFrequency()) { // add at start of list
+		if (nodeF >= list.get(0).getFrequency()) { // add at start of list
 			list.add(0, node);
 			return;
 		}
-		if (nodeF < list.get(list.size() - 1).getFrequency()) { // add at end of list
+		if (nodeF <= list.get(list.size() - 1).getFrequency()) { // add at end of list
 			list.add(node);
 			return;
 		}
 		for (int i = 1; i < list.size(); i++) { // add somewhere in the middle
-			if (list.get(i).getFrequency() < nodeF) {
+			if (list.get(i).getFrequency() <= nodeF) {
 				list.add(i, node);
 				return;
 			}
