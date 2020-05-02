@@ -22,7 +22,7 @@ public class Decoder {
 	public void decode(String inputFileName) throws FileNotFoundException {
 		File inputFile = new File(inputFileName);
 
-		if (inputFile.exists()) { // makes sure both files exists before continuing
+		if (inputFile.exists()) { // Makes sure both files exists before continuing
 			initStreams(inputFileName);
 		} else {
 			throw new FileNotFoundException();
