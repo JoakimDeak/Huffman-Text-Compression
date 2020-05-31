@@ -32,16 +32,14 @@ public class Decoder {
 		try {
 			fis = new FileInputStream(inputFileName);
 			ois = new ObjectInputStream(new FileInputStream(inputFileName));
-			//readHeader(fis);
+			// readHeader(fis);
 			readHeader(ois);
 
 			String outputFileName = "a" + inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
 			writer = new BufferedWriter(new FileWriter(outputFileName));
 
 			decode(fis, writer); // method call to decode text
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally { // closes streams
 			Utility.closeStreams(ois, fis, writer);
@@ -56,11 +54,11 @@ public class Decoder {
 	private void decode(FileInputStream fis, BufferedWriter writer) throws IOException {
 
 		StringBuilder littleE = new StringBuilder();
-		
-		fis.skip(sizeof(this.tree));
-		
+
+		fis.skip(Utility.sizeof(this.tree));
+
 		int fillerBits = fis.read();
-		
+
 		while (fis.available() > 0) { // while there are bytes to read
 			int av = fis.available();
 			byte[] bytes = null;
@@ -79,8 +77,8 @@ public class Decoder {
 		}
 		System.out.println("filler bits" + fillerBits);
 		Node cNode = this.tree.getRoot(); // start at root of tree
-		for (int i = 0; i < littleE.length()/* - fillerBits*/; i++) {
-			int ai = bigE(i);
+		for (int i = 0; i < littleE.length()/* - fillerBits */; i++) {
+			int ai = Utility.bigE(i);
 
 			char cChar = littleE.charAt(ai); // read character
 
@@ -89,36 +87,15 @@ public class Decoder {
 			} else if (cChar == '1') { // if character is 1 go right
 				cNode = cNode.right();
 			}
-			
+
 			if (cNode.isLeaf()) { // if leaf has been reached
 				writer.write(cNode.getCharacter()); // write the character
 				cNode = this.tree.getRoot(); // start over from the root
 			}
 		}
 	}
-	
+
 	private void readHeader(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		this.tree = (Tree) ois.readObject();
-	}
-	
-	private static int sizeof(Object obj) throws IOException {
-
-        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteOutputStream);
-
-        objectOutputStream.writeObject(obj);
-        objectOutputStream.flush();
-        objectOutputStream.close();
-
-        return byteOutputStream.toByteArray().length;
-    }
-	
-	private int bigE(int littleE) {
-		int bigE = littleE / 8;
-		bigE *= 8;
-		bigE += 8 - 1;
-		bigE -= littleE % 8;
-
-		return bigE;
 	}
 }
