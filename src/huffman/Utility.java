@@ -17,7 +17,7 @@ public class Utility {
 			}
 		}
 	}
-	// returns the byte size of an object
+	// returns the byte size of a serialized object
 	public static int sizeof(Object obj) throws IOException {
 
 		ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
