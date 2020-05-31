@@ -35,12 +35,7 @@ public class Encoder {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				oos.close();
-				fos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Utility.closeStreams(oos, fos);
 		}
 	}
 
@@ -83,8 +78,7 @@ public class Encoder {
 			write(encoded.length(), encoded, fos); // write the remaining characters
 		}
 
-		sc.close();
-		fos.close();
+		Utility.closeStreams(sc, fos);
 	}
 	
 	private void writeHeader(Tree tree, ObjectOutputStream oos) throws IOException {

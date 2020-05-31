@@ -44,15 +44,7 @@ public class Decoder {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally { // closes streams
-			try {
-				ois.close();
-				fis.close();
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			}
+			Utility.closeStreams(ois, fis, writer);
 		}
 	}
 
