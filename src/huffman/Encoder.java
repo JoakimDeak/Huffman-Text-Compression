@@ -1,13 +1,7 @@
 package huffman;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Encoder {
 
@@ -59,7 +53,6 @@ public class Encoder {
 	 */
 	private void encode(ArrayList<String> charCodes, FileOutputStream fos, ObjectOutputStream oos, Tree tree) throws IOException {
 		
-		//writeHeader(charCodes, fos);
 		writeHeader(tree, oos);
 		
 		Scanner sc = new Scanner(this.inputFile);

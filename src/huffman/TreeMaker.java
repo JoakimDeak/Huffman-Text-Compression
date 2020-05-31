@@ -1,12 +1,7 @@
 package huffman;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class TreeMaker {
 
@@ -78,8 +73,8 @@ public class TreeMaker {
 	// inserting element in list sorted in descending order using binary search
 	private void insertNode(ArrayList<Node> list, Node node) {
 		int index = Collections.binarySearch(list, node);
-		if(index < 0) {
-			index = Math.abs(index + 1); // in case no similar node was found
+		if(index < 0) { // in case no similar node was found
+			index = Math.abs(index + 1); 
 		}
 		index = list.size() - index; // adjusting for the descending order
 		list.add(index, node);
