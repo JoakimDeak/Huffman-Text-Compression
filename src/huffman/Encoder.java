@@ -78,12 +78,11 @@ public class Encoder {
 			write(encoded.length(), encoded, fos); // write the remaining characters
 		}
 
-		Utility.closeStreams(sc, fos);
+		Utility.closeStreams(sc, fos, oos);
 	}
 	
 	private void writeHeader(Tree tree, ObjectOutputStream oos) throws IOException {
 		oos.writeObject(tree);
-		oos.close();
 	}
 
 	/**
