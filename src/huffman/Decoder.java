@@ -38,7 +38,7 @@ public class Decoder {
 		BitSet binaryEncoded = dc.getData();
 		
 		Node cNode = dc.getTree().getRoot(); // start at root of tree
-		for (int i = 0; i < binaryEncoded.length(); i++) {
+		for (int i = 0; i < dc.getUsedBits(); i++) {
 
 			boolean cBit = binaryEncoded.get(i);
 			if (!cBit) { // if bit is 0 go left

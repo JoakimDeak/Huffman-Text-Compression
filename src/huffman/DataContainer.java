@@ -9,11 +9,13 @@ public class DataContainer implements Serializable {
 	private Tree tree;
 	private int fillerBits;
 	private BitSet data;
+	private int usedBits;
 
-	public DataContainer(Tree tree, int fillerBits, BitSet data) {
+	public DataContainer(Tree tree, int fillerBits, BitSet data, int usedBits) {
 		this.tree = tree;
 		this.fillerBits = fillerBits;
 		this.data = data;
+		this.usedBits = usedBits;
 	}
 
 	public Tree getTree() {
@@ -26,5 +28,9 @@ public class DataContainer implements Serializable {
 
 	public BitSet getData() {
 		return this.data;
+	}
+	
+	public int getUsedBits(){
+		return this.usedBits;
 	}
 }

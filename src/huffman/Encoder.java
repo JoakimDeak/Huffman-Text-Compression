@@ -53,7 +53,7 @@ public class Encoder {
 			}
 		}
 		int fillerBits = (8 - (binaryEncoded.length() % 8)) % 8;
-		DataContainer dc = new DataContainer(tree, fillerBits, binaryEncoded);
+		DataContainer dc = new DataContainer(tree, fillerBits, binaryEncoded, encoded.length());
 		oos.writeObject(dc);
 	}
 }
