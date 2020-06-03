@@ -23,7 +23,7 @@ public class Decoder {
 			fis = new FileInputStream(inputFileName);
 			ois = new ObjectInputStream(new FileInputStream(inputFileName));
 
-			String outputFileName = "a" + inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
+			String outputFileName = inputFileName.substring(0, inputFileName.lastIndexOf('.')) + ".txt";
 			writer = new BufferedWriter(new FileWriter(outputFileName));
 			decode(ois, writer);
 		} catch (IOException | ClassNotFoundException e) {

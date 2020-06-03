@@ -46,14 +46,15 @@ public class Encoder {
 				encoded.append(charCodes.get(cChar));
 			}
 		}
+		
 		BitSet binaryEncoded = new BitSet();
 		for (int i = 0; i < encoded.length(); i++) {
 			if (encoded.charAt(i) == '1') {
 				binaryEncoded.set(i);
 			}
 		}
-		int fillerBits = (8 - (binaryEncoded.length() % 8)) % 8;
-		DataContainer dc = new DataContainer(tree, fillerBits, binaryEncoded, encoded.length());
+
+		DataContainer dc = new DataContainer(tree, binaryEncoded, encoded.length());
 		oos.writeObject(dc);
 	}
 }
