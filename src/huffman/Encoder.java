@@ -7,10 +7,6 @@ public class Encoder {
 
 	private File inputFile;
 
-	/**
-	 * @param fileName
-	 * @throws FileNotFoundException
-	 */
 	public Encoder(String fileName) throws FileNotFoundException {
 		File file = new File(fileName);
 		if (file.exists()) { // makes sure a file with the given name exists
@@ -26,84 +22,43 @@ public class Encoder {
 		TreeMaker tm = new TreeMaker();
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
+		Scanner sc = null;
 		String outputName = inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.')) + ".bin";
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream(new File(outputName)));
 			fos = new FileOutputStream(new File(outputName), true);
 			tree = tm.makeTree(this.inputFile);
-			encode(tree.getCharCodes(), fos, oos, tree);
+			sc = new Scanner(this.inputFile);
+			encode(tree.getCharCodes(), oos, sc, tree);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			Utility.closeStreams(oos, fos);
+			Utility.closeStreams(oos, fos, sc);
 		}
 	}
 
-	/**
-	 * writes the encoded text as binary to compress original text
-	 * 
-	 * @param charCodes
-	 * @param fos
-	 * @throws IOException
-	 */
-	private void encode(ArrayList<String> charCodes, FileOutputStream fos, ObjectOutputStream oos, Tree tree) throws IOException {
-		
-		writeHeader(tree, oos);
-		
-		Scanner sc = new Scanner(this.inputFile);
+	private void encode(ArrayList<String> charCodes, ObjectOutputStream oos, Scanner sc, Tree tree) throws IOException {
 		StringBuilder encoded = new StringBuilder();
-		int encodedLengthBeforeWrite = 256; // how many bits will be written at a time
-		
-		while (sc.hasNextLine()) { // go through every line
-			String cLine = sc.nextLine() + '\n';
-			for (int i = 0; i < cLine.length(); i++) { // go through every character
+		while (sc.hasNextLine()) {
+			String cLine = sc.nextLine() + "\n";
+			for (int i = 0; i < cLine.length(); i++) {
 				char cChar = cLine.charAt(i);
-				for (String code : charCodes) { // find entry for current character in
+				for (String code : charCodes) {
 					if (code.charAt(0) == cChar) {
-						encoded.append(code.substring(1)); // add character code to stringbuilder
+						encoded.append(code.substring(1));
 					}
 				}
-				if (encoded.length() >= encodedLengthBeforeWrite) {
-					encoded = write(encodedLengthBeforeWrite, encoded, fos);
-				}
 			}
 		}
-		if (encoded.length() > 0) { // if number of characters wasnt multiple of the given number
-			int bitsToBeAdded = 8 - encoded.length() % 8; // make it multiple of eight by adding extra 0s
-			for (int i = 0; i < bitsToBeAdded; i++) {
-				encoded.append('0');
-			}
-			fos.write(bitsToBeAdded);
-			System.out.println("fillerbits pre" + bitsToBeAdded);
-			write(encoded.length(), encoded, fos); // write the remaining characters
-		}
-
-		Utility.closeStreams(sc, fos, oos);
-	}
-	
-	private void writeHeader(Tree tree, ObjectOutputStream oos) throws IOException {
-		oos.writeObject(tree);
-	}
-
-	/**
-	 * @param charsToWrite
-	 * @param input
-	 * @param fos
-	 * @return
-	 * @throws IOException
-	 */
-	private StringBuilder write(int charsToWrite, StringBuilder input, FileOutputStream fos) throws IOException {
-
-		BitSet set = new BitSet();
-
-		for (int i = 0; i < charsToWrite; i++) { // takes string of 0s and 1s and converts to bitset
-			if (input.charAt(i) == '1') {
-				set.set(i);
+		BitSet binaryEncoded = new BitSet();
+		for (int i = 0; i < encoded.length(); i++) {
+			if (encoded.charAt(i) == '1') {
+				binaryEncoded.set(i);
 			}
 		}
-		fos.write(set.toByteArray()); // writes the bitset to output file as byte array
-		input.delete(0, charsToWrite); // deletes characters once they have been written
-
-		return input;
+		byte[] ba = binaryEncoded.toByteArray();
+		int fillerBits = (8 - (binaryEncoded.length() % 8)) % 8;
+		DataContainer dc = new DataContainer(tree, fillerBits, ba);
+		oos.writeObject(dc);
 	}
 }
