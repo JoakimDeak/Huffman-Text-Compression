@@ -28,7 +28,7 @@ public class Decoder {
 			decode(ois, writer);
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		} finally { // closes streams
+		} finally {
 			Utility.closeStreams(ois, fis, writer);
 		}
 	}
@@ -40,11 +40,10 @@ public class Decoder {
 		Node cNode = dc.getTree().getRoot(); // start at root of tree
 		for (int i = 0; i < binaryEncoded.length(); i++) {
 
-			//char cChar = littleE.charAt(ai); // read character
 			boolean cBit = binaryEncoded.get(i);
-			if (!cBit) { // if character is 0 go left
+			if (!cBit) { // if bit is 0 go left
 				cNode = cNode.left();
-			} else if (cBit) { // if character is 1 go right
+			} else if (cBit) { // if bit is 1 go right
 				cNode = cNode.right();
 			}
 

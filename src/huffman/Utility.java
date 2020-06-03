@@ -14,14 +14,4 @@ public class Utility {
 			}
 		}
 	}
-
-	// converter for itterating bits in little endian as big endian
-	public static int bigE(int littleE) {
-		int bigE = littleE / 8;
-		bigE *= 8;
-		bigE += 8 - 1;
-		bigE -= littleE % 8;
-
-		return bigE;
-	}
 }
