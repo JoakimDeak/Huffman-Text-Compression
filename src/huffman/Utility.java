@@ -1,9 +1,6 @@
 package huffman;
 
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class Utility {
 	// closes a variable number of streams
@@ -17,18 +14,7 @@ public class Utility {
 			}
 		}
 	}
-	// returns the byte size of a serialized object
-	public static int sizeof(Object obj) throws IOException {
 
-		ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
-		ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteOutputStream);
-
-		objectOutputStream.writeObject(obj);
-		objectOutputStream.flush();
-		objectOutputStream.close();
-
-		return byteOutputStream.toByteArray().length;
-	}
 	// converter for itterating bits in little endian as big endian
 	public static int bigE(int littleE) {
 		int bigE = littleE / 8;
