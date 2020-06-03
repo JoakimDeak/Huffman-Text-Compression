@@ -52,9 +52,8 @@ public class Encoder {
 				binaryEncoded.set(i);
 			}
 		}
-		byte[] ba = binaryEncoded.toByteArray();
 		int fillerBits = (8 - (binaryEncoded.length() % 8)) % 8;
-		DataContainer dc = new DataContainer(tree, fillerBits, ba);
+		DataContainer dc = new DataContainer(tree, fillerBits, binaryEncoded);
 		oos.writeObject(dc);
 	}
 }

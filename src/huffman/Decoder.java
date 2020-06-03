@@ -1,6 +1,7 @@
 package huffman;
 
 import java.io.*;
+import java.util.BitSet;
 
 public class Decoder {
 
@@ -34,21 +35,16 @@ public class Decoder {
 
 	private void decode(ObjectInputStream ois, BufferedWriter writer) throws ClassNotFoundException, IOException {
 		DataContainer dc = (DataContainer) ois.readObject();
-		StringBuilder littleE = new StringBuilder();
-
-		for (byte b : dc.getData()) {
-			littleE.append(Integer.toBinaryString((b & 0xFF) + 0x100).substring(1));
-		}
-
+		BitSet binaryEncoded = dc.getData();
+		
 		Node cNode = dc.getTree().getRoot(); // start at root of tree
-		for (int i = 0; i < littleE.length(); i++) {
-			int ai = Utility.bigE(i);
+		for (int i = 0; i < binaryEncoded.length(); i++) {
 
-			char cChar = littleE.charAt(ai); // read character
-
-			if (cChar == '0') { // if character is 0 go left
+			//char cChar = littleE.charAt(ai); // read character
+			boolean cBit = binaryEncoded.get(i);
+			if (!cBit) { // if character is 0 go left
 				cNode = cNode.left();
-			} else if (cChar == '1') { // if character is 1 go right
+			} else if (cBit) { // if character is 1 go right
 				cNode = cNode.right();
 			}
 
