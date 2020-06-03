@@ -50,8 +50,8 @@ public class Main {
 	private static void compress(String fileName) {
 		Encoder e;
 		try {
-			e = new Encoder(fileName);
-			e.encode();
+			e = new Encoder();
+			e.encode(fileName);
 			System.out.println("Compression successful");
 
 			showBanner();

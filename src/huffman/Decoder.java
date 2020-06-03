@@ -9,13 +9,13 @@ public class Decoder {
 		File inputFile = new File(inputFileName);
 
 		if (inputFile.exists()) { // Makes sure both files exists before continuing
-			initStreams(inputFileName);
+			decodeMain(inputFileName);
 		} else {
 			throw new FileNotFoundException();
 		}
 	}
 
-	private void initStreams(String inputFileName) {
+	private void decodeMain(String inputFileName) {
 		BufferedWriter writer = null;
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;

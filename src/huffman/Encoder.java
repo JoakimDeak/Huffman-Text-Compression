@@ -5,19 +5,17 @@ import java.util.*;
 
 public class Encoder {
 
-	private File inputFile;
-
-	public Encoder(String fileName) throws FileNotFoundException {
+	public void encode(String fileName) throws FileNotFoundException {
 		File file = new File(fileName);
 		if (file.exists()) { // makes sure a file with the given name exists
-			this.inputFile = file;
+			encodeMain(file);
 		} else {
 			throw new FileNotFoundException();
 		}
 
 	}
 
-	public void encode() {
+	private void encodeMain(File inputFile) {
 		Tree tree = null;
 		TreeMaker tm = new TreeMaker();
 		FileOutputStream fos = null;
@@ -27,8 +25,8 @@ public class Encoder {
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream(new File(outputName)));
 			fos = new FileOutputStream(new File(outputName), true);
-			tree = tm.makeTree(this.inputFile);
-			sc = new Scanner(this.inputFile);
+			tree = tm.makeTree(inputFile);
+			sc = new Scanner(inputFile);
 			encode(tree.getCharCodes(), oos, sc, tree);
 		} catch (IOException e) {
 			e.printStackTrace();
