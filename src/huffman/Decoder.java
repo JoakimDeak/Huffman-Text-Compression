@@ -41,7 +41,7 @@ public class Decoder {
 		}
 
 		Node cNode = dc.getTree().getRoot(); // start at root of tree
-		for (int i = 0; i < littleE.length()/* - fillerBits */; i++) {
+		for (int i = 0; i < littleE.length(); i++) {
 			int ai = Utility.bigE(i);
 
 			char cChar = littleE.charAt(ai); // read character

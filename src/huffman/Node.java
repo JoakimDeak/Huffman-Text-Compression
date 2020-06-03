@@ -1,7 +1,7 @@
 package huffman;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Node implements Comparable<Node>, Serializable {
 
@@ -91,10 +91,10 @@ public class Node implements Comparable<Node>, Serializable {
 		return output;
 	}
 	
-	public ArrayList<String> getCharCode(String cCode, ArrayList<String> charCodes) {
+	public HashMap<Character, String> getCharCode(String cCode, HashMap<Character, String> charCodes) {
 		
 		if(this.isLeaf()) {
-			charCodes.add(this.getCharacter() + cCode);
+			charCodes.put(this.getCharacter(), cCode);
 			return charCodes;
 		}
 		

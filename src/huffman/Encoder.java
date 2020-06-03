@@ -37,17 +37,13 @@ public class Encoder {
 		}
 	}
 
-	private void encode(ArrayList<String> charCodes, ObjectOutputStream oos, Scanner sc, Tree tree) throws IOException {
+	private void encode(HashMap<Character, String> charCodes, ObjectOutputStream oos, Scanner sc, Tree tree) throws IOException {
 		StringBuilder encoded = new StringBuilder();
 		while (sc.hasNextLine()) {
 			String cLine = sc.nextLine() + "\n";
 			for (int i = 0; i < cLine.length(); i++) {
 				char cChar = cLine.charAt(i);
-				for (String code : charCodes) {
-					if (code.charAt(0) == cChar) {
-						encoded.append(code.substring(1));
-					}
-				}
+				encoded.append(charCodes.get(cChar));
 			}
 		}
 		BitSet binaryEncoded = new BitSet();

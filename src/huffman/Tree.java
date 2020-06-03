@@ -2,6 +2,7 @@ package huffman;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Tree implements Serializable{
 
@@ -25,8 +26,8 @@ public class Tree implements Serializable{
 	 * 
 	 * @return
 	 */
-	public ArrayList<String> getCharCodes() {
-		ArrayList<String> charCodes = new ArrayList<String>();
+	public HashMap<Character, String> getCharCodes() {
+		HashMap<Character, String> charCodes = new HashMap<Character, String>();
 		return this.root.getCharCode("", charCodes);
 	}
 
