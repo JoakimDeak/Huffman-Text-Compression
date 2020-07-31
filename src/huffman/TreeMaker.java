@@ -32,7 +32,7 @@ public class TreeMaker {
 		Scanner sc = new Scanner(fileName);
 
 		while (sc.hasNextLine()) {
-			s = sc.nextLine()  + '\n';
+			s = sc.nextLine() + '\n';
 
 			for (int i = 0; i < s.length(); i++) {
 				char cChar = s.charAt(i);
@@ -49,7 +49,7 @@ public class TreeMaker {
 
 	private Tree makeTreeFromList(ArrayList<Node> nList) {
 		Node root;
-		if(nList.size() == 1) {
+		if (nList.size() == 1) {
 			root = nList.get(0);
 		} else {
 			Collections.sort(nList, Collections.reverseOrder());
@@ -65,7 +65,7 @@ public class TreeMaker {
 			}
 			root = new Node(nList.get(0), nList.get(1));
 		}
-		
+
 		Tree t = new Tree(root);
 		return t;
 	}
@@ -73,46 +73,11 @@ public class TreeMaker {
 	// inserting element in list sorted in descending order using binary search
 	private void insertNode(ArrayList<Node> list, Node node) {
 		int index = Collections.binarySearch(list, node);
-		if(index < 0) { // in case no similar node was found
-			index = Math.abs(index + 1); 
+		if (index < 0) { // in case no similar node was found
+			index = Math.abs(index + 1);
 		}
 		index = list.size() - index; // adjusting for the descending order
 		list.add(index, node);
 	}
 
-	public Tree treeFromCodes(ArrayList<String> codes) {
-		return new Tree(treeFromCodes(codes, 0, new Node()));
-	}
-
-	private Node treeFromCodes(ArrayList<String> codes, int level, Node node) {
-
-		// creating sublists for character codes
-		ArrayList<String> left = new ArrayList<String>();
-		ArrayList<String> right = new ArrayList<String>();
-
-		// sorting character codes into sublists
-		for (String code : codes) {
-			if (code.charAt(level + 1) == '0') {
-				left.add(code);
-			} else {
-				right.add(code);
-			}
-		}
-
-		// create leaf node with character or create structure node and make recursive
-		// call
-		if (left.size() == 1) {
-			node.setLeft(new Node(left.get(0).charAt(0)));
-		} else {
-			node.setLeft(treeFromCodes(left, level + 1, new Node()));
-		}
-
-		if (right.size() == 1) {
-			node.setRight(new Node(right.get(0).charAt(0)));
-		} else {
-			node.setRight(treeFromCodes(right, level + 1, new Node()));
-		}
-
-		return node;
-	}
 }
